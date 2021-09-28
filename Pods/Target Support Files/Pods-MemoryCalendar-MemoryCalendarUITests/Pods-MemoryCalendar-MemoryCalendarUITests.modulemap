@@ -1,0 +1,6 @@
+framework module Pods_MemoryCalendar_MemoryCalendarUITests {
+  umbrella header "Pods-MemoryCalendar-MemoryCalendarUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
