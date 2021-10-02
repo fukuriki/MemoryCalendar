@@ -12,5 +12,6 @@ class Event: Object {
     
     @objc dynamic var date: String = ""
     @objc dynamic var event: String = ""
+    @objc dynamic var memo: String = ""
 
 }

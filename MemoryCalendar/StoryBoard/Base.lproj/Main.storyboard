@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -43,40 +44,100 @@
             <point key="canvasLocation" x="20" y="84"/>
         </scene>
         <!--Set Memory View Controller-->
-        <scene sceneID="KBd-TJ-gRg">
+        <scene sceneID="HwQ-6s-IbF">
             <objects>
-                <viewController storyboardIdentifier="Insert" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dUt-1U-h2j" customClass="SetMemoryViewController" customModule="MemoryCalendar" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="HG9-eA-83c">
+                <viewController storyboardIdentifier="Insert" useStoryboardIdentifierAsRestorationIdentifier="YES" id="O06-IH-hkP" customClass="SetMemoryViewController" customModule="MemoryCalendar" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Kst-3N-vXb">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="83Z-nl-uzq">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="G3J-To-v7l">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Bh1-8g-jOz">
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Bh1-8g-jOz" id="ZNk-8L-Syu" customClass="TaskTableViewCell" customModule="MemoryCalendar" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9CB-dW-IZI">
+                                <rect key="frame" x="314" y="762" width="70" height="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="9CB-dW-IZI" secondAttribute="height" multiplier="1:1" id="iTh-zL-70x"/>
+                                    <constraint firstAttribute="width" constant="70" id="zEj-fD-ZRa"/>
+                                </constraints>
+                                <connections>
+                                    <segue destination="zfR-Mn-A9s" kind="embed" id="uPe-uK-r86"/>
+                                </connections>
+                            </containerView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="WAy-FJ-7zU"/>
+                        <viewLayoutGuide key="safeArea" id="KRH-U6-H33"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="WAy-FJ-7zU" firstAttribute="trailing" secondItem="83Z-nl-uzq" secondAttribute="trailing" id="IDW-8U-lTX"/>
-                            <constraint firstItem="WAy-FJ-7zU" firstAttribute="bottom" secondItem="83Z-nl-uzq" secondAttribute="bottom" id="LEn-gi-c6C"/>
-                            <constraint firstItem="83Z-nl-uzq" firstAttribute="top" secondItem="WAy-FJ-7zU" secondAttribute="top" id="PDv-72-IQy"/>
-                            <constraint firstItem="83Z-nl-uzq" firstAttribute="leading" secondItem="WAy-FJ-7zU" secondAttribute="leading" id="vdI-yn-vTA"/>
+                            <constraint firstItem="KRH-U6-H33" firstAttribute="bottom" secondItem="9CB-dW-IZI" secondAttribute="bottom" constant="30" id="0lh-Ml-eu4"/>
+                            <constraint firstItem="G3J-To-v7l" firstAttribute="top" secondItem="KRH-U6-H33" secondAttribute="top" id="PG1-ld-c9E"/>
+                            <constraint firstItem="KRH-U6-H33" firstAttribute="bottom" secondItem="G3J-To-v7l" secondAttribute="bottom" id="R9P-IB-OsC"/>
+                            <constraint firstItem="KRH-U6-H33" firstAttribute="trailing" secondItem="G3J-To-v7l" secondAttribute="trailing" id="Veb-rg-Z30"/>
+                            <constraint firstItem="KRH-U6-H33" firstAttribute="trailing" secondItem="9CB-dW-IZI" secondAttribute="trailing" constant="30" id="hMl-Aq-BwP"/>
+                            <constraint firstItem="G3J-To-v7l" firstAttribute="leading" secondItem="KRH-U6-H33" secondAttribute="leading" id="lxN-NI-yrM"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="BR5-I1-s97"/>
                     <connections>
-                        <outlet property="setMemoryTableView" destination="83Z-nl-uzq" id="BGK-hS-M0z"/>
+                        <outlet property="setMemoryTableView" destination="G3J-To-v7l" id="t4f-8p-jgw"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="5qV-eg-JXT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5zU-pU-JA5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="835" y="84"/>
+            <point key="canvasLocation" x="857.97101449275374" y="83.705357142857139"/>
+        </scene>
+        <!--Container View Controller-->
+        <scene sceneID="f3I-Ak-e4l">
+            <objects>
+                <viewController id="zfR-Mn-A9s" customClass="ContainerViewController" customModule="MemoryCalendar" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VPr-O3-bXh">
+                        <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1cN-p9-bng">
+                                <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" cornerStyle="large">
+                                    <imageReference key="image" image="plus.square.on.square" catalog="system" symbolScale="large"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="large"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="tappedNewTaskButton:" destination="zfR-Mn-A9s" eventType="touchUpInside" id="DhV-c5-LJ6"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="1cN-p9-bng" secondAttribute="bottom" id="VFJ-1v-Nzo"/>
+                            <constraint firstItem="1cN-p9-bng" firstAttribute="top" secondItem="VPr-O3-bXh" secondAttribute="top" id="Vp3-Ch-W4l"/>
+                            <constraint firstAttribute="trailing" secondItem="1cN-p9-bng" secondAttribute="trailing" id="iR2-Qd-Ls5"/>
+                            <constraint firstItem="1cN-p9-bng" firstAttribute="leading" secondItem="VPr-O3-bXh" secondAttribute="leading" id="qTR-jJ-3X9"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BVf-65-5ah" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="856.52173913043487" y="555.13392857142856"/>
         </scene>
     </scenes>
     <resources>
+        <image name="plus.square.on.square" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

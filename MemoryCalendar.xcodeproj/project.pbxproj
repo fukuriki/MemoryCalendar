@@ -19,6 +19,9 @@
 		3C8F481D26FC8A5700A1CD24 /* MemoryCalendarUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8F481C26FC8A5700A1CD24 /* MemoryCalendarUITestsLaunchTests.swift */; };
 		3C8F483027009D6500A1CD24 /* SetMemoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8F482F27009D6500A1CD24 /* SetMemoryViewController.swift */; };
 		3C8F48332700BB5300A1CD24 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8F48322700BB5300A1CD24 /* Event.swift */; };
+		3C8F4835270457AF00A1CD24 /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8F4834270457AF00A1CD24 /* TaskTableViewCell.swift */; };
+		3C8F48372704870400A1CD24 /* TaskTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C8F48362704870300A1CD24 /* TaskTableViewCell.xib */; };
+		3C8F483927088DDC00A1CD24 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8F483827088DDC00A1CD24 /* ContainerViewController.swift */; };
 		BF7E82AA902069F66EE50939 /* Pods_MemoryCalendarTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1728DC460B271A52DCAB8557 /* Pods_MemoryCalendarTests.framework */; };
 		C0A0068CBFFED05E216EEADE /* Pods_MemoryCalendar_MemoryCalendarUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 796ECDE3831ED893600F5E42 /* Pods_MemoryCalendar_MemoryCalendarUITests.framework */; };
 /* End PBXBuildFile section */
@@ -60,6 +63,9 @@
 		3C8F481C26FC8A5700A1CD24 /* MemoryCalendarUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryCalendarUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		3C8F482F27009D6500A1CD24 /* SetMemoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetMemoryViewController.swift; sourceTree = "<group>"; };
 		3C8F48322700BB5300A1CD24 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		3C8F4834270457AF00A1CD24 /* TaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTableViewCell.swift; sourceTree = "<group>"; };
+		3C8F48362704870300A1CD24 /* TaskTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskTableViewCell.xib; sourceTree = "<group>"; };
+		3C8F483827088DDC00A1CD24 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		796ECDE3831ED893600F5E42 /* Pods_MemoryCalendar_MemoryCalendarUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MemoryCalendar_MemoryCalendarUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AECCF20F4B97F20D2482B50 /* Pods-MemoryCalendar-MemoryCalendarUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MemoryCalendar-MemoryCalendarUITests.release.xcconfig"; path = "Target Support Files/Pods-MemoryCalendar-MemoryCalendarUITests/Pods-MemoryCalendar-MemoryCalendarUITests.release.xcconfig"; sourceTree = "<group>"; };
 		82EA521EEBE958F0C4C72D54 /* Pods-MemoryCalendar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MemoryCalendar.debug.xcconfig"; path = "Target Support Files/Pods-MemoryCalendar/Pods-MemoryCalendar.debug.xcconfig"; sourceTree = "<group>"; };
@@ -154,6 +160,8 @@
 			children = (
 				3C8F47FD26FC8A5500A1CD24 /* ViewController.swift */,
 				3C8F482F27009D6500A1CD24 /* SetMemoryViewController.swift */,
+				3C8F4834270457AF00A1CD24 /* TaskTableViewCell.swift */,
+				3C8F483827088DDC00A1CD24 /* ContainerViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -162,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				3C8F47FF26FC8A5500A1CD24 /* Main.storyboard */,
+				3C8F48362704870300A1CD24 /* TaskTableViewCell.xib */,
 			);
 			path = StoryBoard;
 			sourceTree = "<group>";
@@ -306,6 +315,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C8F48372704870400A1CD24 /* TaskTableViewCell.xib in Resources */,
 				3C8F480626FC8A5600A1CD24 /* LaunchScreen.storyboard in Resources */,
 				3C8F480326FC8A5600A1CD24 /* Assets.xcassets in Resources */,
 				3C8F480126FC8A5500A1CD24 /* Main.storyboard in Resources */,
@@ -438,6 +448,8 @@
 			files = (
 				3C8F483027009D6500A1CD24 /* SetMemoryViewController.swift in Sources */,
 				3C8F47FE26FC8A5500A1CD24 /* ViewController.swift in Sources */,
+				3C8F483927088DDC00A1CD24 /* ContainerViewController.swift in Sources */,
+				3C8F4835270457AF00A1CD24 /* TaskTableViewCell.swift in Sources */,
 				3C8F47FA26FC8A5500A1CD24 /* AppDelegate.swift in Sources */,
 				3C8F47FC26FC8A5500A1CD24 /* SceneDelegate.swift in Sources */,
 				3C8F48332700BB5300A1CD24 /* Event.swift in Sources */,

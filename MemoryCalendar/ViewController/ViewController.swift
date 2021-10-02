@@ -25,13 +25,7 @@ class ViewController: UIViewController {
         Calendar.delegate = self
         Calendar.dataSource = self
         
-//        setupBindings()
-        
     }
-    
-//    private func setupBindings() {
-//
-//    }
 
 }
 
@@ -39,25 +33,9 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         
-        print("tappedDateButton")
-//
+//        print("tappedDateButton")
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
         let setMemoryViewController = storyboard.instantiateViewController(withIdentifier: "Insert")
-        //    () as! SetMemoryViewController
-//        navigationController?.pushViewController(setMemoryViewController, animated: true)
         present(setMemoryViewController, animated: true, completion: nil)
-        
-//        let selectDay
     }
-    
-//    func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition)
-////    -> Bool
-//    {
-//
-//        let storyboard = UIStoryboard.init(name: "SetMemory", bundle: nil)
-//        let setMemoryViewController = storyboard.instantiateViewController(withIdentifier: "SetMemoryViewController")
-//        navigationController?.pushViewController(setMemoryViewController, animated: true)
-//    }
-    
-    
 }
