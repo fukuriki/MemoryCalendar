@@ -12,59 +12,20 @@ import RealmSwift
 class SetMemoryViewController: UIViewController {
     
     private let cellId = "cellId"
+//    weak var delegate: ToPassDataProtocol?
     
     @IBOutlet weak var setMemoryTableView: UITableView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        setMemoryTableView.backgroundColor = .blue
-        
+                
         setMemoryTableView.delegate = self
         setMemoryTableView.dataSource = self
         setMemoryTableView.register(UINib(nibName: "TaskTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
         
-//        newTaskButton.addTarget(self, action: #selector(tappedNewTaskButton), for: .touchUpInside)
-        
-//        let button = UIButton()
-//        view.addSubview(button)
-        
-//        button.heightAnchor.constraint(equalToConstant: 100)
-//        button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-//        button.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor)
-        
-//        let screenWidth = self.view.frame.width
-//        let screenHeight = self.view.frame.height
-
-        
-//        button.frame = CGRect(x: screenWidth/4, y: screenHeight/2, width: screenWidth/2, height: 50)
-//        button.frame = CGRect(x: screenWidth/4, y: , width: screenWidth/2, height: 50)
-
-        
-//        self.view.addSubview(button)
-
-        
-        
-//        button.setNeedsLayout()
         
     }
-    
-//    @objc private func tappedNewTaskButton() {
-//
-//        print("tappedNewTaskButton")
-//    }
-    
-//    override func viewDidLayoutSubviews() {
-//        super.viewWillLayoutSubviews()
-//
-//        let button = UIButton()
-//        view.addSubview(button)
-//
-//        button.heightAnchor.constraint(equalToConstant: 100)
-//        button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-//        button.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor)
-//    }
 }
     
 extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
@@ -78,7 +39,7 @@ extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return 40
     }
         
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -86,17 +47,6 @@ extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
 //        cell.プロパティ
         return cell
     }
-    
-//    ストーリーボード内のセル数と矛盾して落ちる
-//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 10
-////        tasks.count
-//    }
-    
-//    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-//        print("canMoveRowAt")
-//        return true
-//    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         setMemoryTableView.deselectRow(at: indexPath, animated: true)
@@ -113,6 +63,8 @@ extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-
-//extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
+//extension ViewController: ToPassDataProtocol {
+//    func dataDidSelect(data: Date) {
+////
+//    }
 //}

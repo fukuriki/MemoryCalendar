@@ -55,7 +55,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Bh1-8g-jOz">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cellId" id="Bh1-8g-jOz" customClass="TaskTableViewCell" customModule="MemoryCalendar" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Bh1-8g-jOz" id="ZNk-8L-Syu" customClass="TaskTableViewCell" customModule="MemoryCalendar" customModuleProvider="target">
@@ -98,7 +98,7 @@
         <!--Container View Controller-->
         <scene sceneID="f3I-Ak-e4l">
             <objects>
-                <viewController id="zfR-Mn-A9s" customClass="ContainerViewController" customModule="MemoryCalendar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ContainerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="zfR-Mn-A9s" customClass="ContainerViewController" customModule="MemoryCalendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VPr-O3-bXh">
                         <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -117,6 +117,7 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="2JW-Na-Yqf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="1cN-p9-bng" secondAttribute="bottom" id="VFJ-1v-Nzo"/>
@@ -125,6 +126,9 @@
                             <constraint firstItem="1cN-p9-bng" firstAttribute="leading" secondItem="VPr-O3-bXh" secondAttribute="leading" id="qTR-jJ-3X9"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="newTaskButton" destination="1cN-p9-bng" id="4pe-Rq-Alf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BVf-65-5ah" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
