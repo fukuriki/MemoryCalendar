@@ -40,11 +40,11 @@ class ViewController: UIViewController {
         
     }
     
-    @objc private func giveDate(date: Date) {
-        let date = date
-        print("date: ", date)
-
-    }
+//    @objc private func giveDate(date: Date) {
+//        let date = date
+//        print("date: ", date)
+//
+//    }
 
 }
 
@@ -53,9 +53,20 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-        let setMemoryViewController = storyboard.instantiateViewController(withIdentifier: "Insert")
+//        let setMemoryViewController = storyboard.instantiateViewController(withIdentifier: "Insert")
+        let setMemoryViewController = storyboard.instantiateViewController(withIdentifier: "Insert") as? SetMemoryViewController
+//        SetMemoryViewController
+        
+        if let setMemoryViewController = setMemoryViewController {
+            setMemoryViewController.date = date
+            present(setMemoryViewController, animated: true, completion: nil)
+        }
+        
 //        setMemoryViewController.delegate
-        present(setMemoryViewController, animated: true, completion: nil)
+        
+        
+//        setMemoryViewController.date
+//        present(setMemoryViewController, animated: true, completion: nil)
         
 //        NotificationCenter.default.post(name: .notifyName, object: nil, userInfo: ["date": date])
 
@@ -75,9 +86,9 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
     }
 }
 
-extension Notification.Name {
-    static let notifyName = Notification.Name("notifyName")
-}
+//extension Notification.Name {
+//    static let notifyName = Notification.Name("notifyName")
+//}
 
 //extension ViewController: ToPassDataProtocol {
 //    func dataDidSelect(data: Date) {

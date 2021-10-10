@@ -12,6 +12,8 @@ import RealmSwift
 class SetMemoryViewController: UIViewController {
     
     private let cellId = "cellId"
+    var date = Date()
+//    let setMemoryViewController = SetMemoryViewController()
 //    weak var delegate: ToPassDataProtocol?
     
     @IBOutlet weak var setMemoryTableView: UITableView!
@@ -24,7 +26,17 @@ class SetMemoryViewController: UIViewController {
         setMemoryTableView.dataSource = self
         setMemoryTableView.register(UINib(nibName: "TaskTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
         
+        print("Setdate: ", date)
         
+//        let child = self.date as! ContainerViewController
+//        child.dateInContainer = self.date
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ToContainerViewController" {
+            let next = segue.destination as? ContainerViewController
+            next?.dateInContainer = self.date
+        }
     }
 }
     
@@ -68,3 +80,75 @@ extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
 ////
 //    }
 //}
+
+class ContainerViewController: UIViewController {
+    
+//    let setMemoryViewController = SetMemoryViewController().setMemoryViewController
+    
+//    let date = SetMemoryViewController().date
+    var dateInContainer = Date()
+    
+    @IBAction func tappedNewTaskButton(_ sender: Any) {
+        
+        popUpInterface()
+    }
+    
+    @IBOutlet weak var newTaskButton: UIButton!
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        newTaskButton.layer.cornerRadius = 35
+    }
+    
+    
+    private func popUpInterface() {
+        
+        var alertTextField: UITextField?
+        
+        let alert = UIAlertController(
+                    title: "復習すべきこと",
+                    message: "Enter your task",
+                    preferredStyle: UIAlertController.Style.alert)
+                alert.addTextField(
+                    configurationHandler: {(textField: UITextField!) in
+                        alertTextField = textField
+//                        textField.text = self.label1.text
+                    })
+        alert.addAction(
+                    UIAlertAction(
+                        title: "Cancel",
+                        style: UIAlertAction.Style.cancel,
+                        handler: nil))
+                alert.addAction(
+                    UIAlertAction(
+                        title: "OK",
+                        style: UIAlertAction.Style.default) { _ in
+
+                            print("tappedOKButton")
+                                
+//                            let day = SetMemoryViewController()
+//                                . setMemoryViewController
+//                                .date
+                            
+                            
+                            let day = self.dateInContainer
+                            
+                            
+//                            let day = Date()
+                                let reviewDay1 = Calendar.current.date(byAdding: .day, value: 1, to: day)
+                                let reviewDay3 = Calendar.current.date(byAdding: .day, value: 3, to: day)
+                                let reviewDay7 = Calendar.current.date(byAdding: .day, value: 7, to: day)
+                                let reviewDay30 = Calendar.current.date(byAdding: .day, value: 30, to: day)
+                                
+                                print(day)
+                                print(reviewDay1 ?? "")
+                                print(reviewDay3 ?? "")
+                                print(reviewDay7 ?? "")
+                                print(reviewDay30 ?? "")
+                    }
+                )
+                self.present(alert, animated: true, completion: nil)
+    }
+}
