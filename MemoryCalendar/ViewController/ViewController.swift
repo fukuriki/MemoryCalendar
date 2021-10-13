@@ -10,23 +10,19 @@ import FSCalendar
 
 class ViewController: UIViewController {
     
-//    var stringSelectedDay: String = ""
-//    weak var delegate: ToPassDataProtocol?
+//    let dateFormatter = DateFormatter()
     
     @IBOutlet weak var Calendar: FSCalendar!
     
-//    fileprivate lazy var dateFormatter: DateFormatter = {
+//    var dateFormatter: DateFormatter = {
 //
 //        let formatter = DateFormatter()
-//        formatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "ydMMM", options: 0, locale: Locale(identifier: "ja_JP"))
+//        formatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "yddHHmm", options: 0, locale: Locale(identifier: "ja_JP"))
 //        return formatter
 //    }()
     
     override func viewWillAppear(_ animated: Bool) {
-        
-//        let calPosition = Calendar.current
-        
-//        let selectDay = calPosition.date(from: DateComponents(year: <#T##Int?#>, month: <#T##Int?#>, day: <#T##Int?#>))
+
     }
 
     override func viewDidLoad() {
@@ -34,18 +30,8 @@ class ViewController: UIViewController {
         
         Calendar.delegate = self
         Calendar.dataSource = self
-        
-//        NotificationCenter.default.addObserver(self, selector: #selector(giveDate), name: .notifyName, object: nil)
 
-        
     }
-    
-//    @objc private func giveDate(date: Date) {
-//        let date = date
-//        print("date: ", date)
-//
-//    }
-
 }
 
 extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
@@ -53,45 +39,35 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-//        let setMemoryViewController = storyboard.instantiateViewController(withIdentifier: "Insert")
         let setMemoryViewController = storyboard.instantiateViewController(withIdentifier: "Insert") as? SetMemoryViewController
-//        SetMemoryViewController
         
         if let setMemoryViewController = setMemoryViewController {
-            setMemoryViewController.date = date
+            
+//            SettingDate().dateFormatter
+//                let dateFormatter = DateFormatter()
+            
+//            let dateX = SettingDate
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "y-MM-dd"
+            let string = dateFormatter.string(from: date)
+            print("string: ", string)
+            
+//            setMemoryViewController.date =  dateFormatterForDateLabel(date: date)
+//            SettingDate.dateFromString(string: string, format: "y-MM-dd")
+
+//            setMemoryViewController.date =  date
+            setMemoryViewController.date = SettingDate.dateFromString(string: string, format: "y-MM-dd")
+            
             present(setMemoryViewController, animated: true, completion: nil)
         }
-        
-//        setMemoryViewController.delegate
-        
-        
-//        setMemoryViewController.date
-//        present(setMemoryViewController, animated: true, completion: nil)
-        
-//        NotificationCenter.default.post(name: .notifyName, object: nil, userInfo: ["date": date])
-
-//        self.giveDate(date: date)
-        
-
-//        let selectedDay = "\(date)"
-//        self.stringSelectedDay.append(selectedDay)
-//        print("stringSelectedDay: ", stringSelectedDay)
-        
-//        NotificationCenter.default.post(name: <#T##NSNotification.Name#>, object: <#T##Any?#>, userInfo: <#T##[AnyHashable : Any]?#>)
-//        NotificationCenter.default.post("BUTTON", object: nil, userInfo: <#T##[AnyHashable : Any]?#>)
-        
-//        NotificationCenter.default.post(name: .notifyName, object: nil)
-        
-
     }
-}
-
-//extension Notification.Name {
-//    static let notifyName = Notification.Name("notifyName")
-//}
-
-//extension ViewController: ToPassDataProtocol {
-//    func dataDidSelect(data: Date) {
-////
+    
+//    private func dateFormatterForDateLabel(date: Date) -> Date {
+//        let formatter = DateFormatter()
+//        formatter.dateStyle = .short
+//        formatter.timeStyle = .short
+//        formatter.locale = Locale(identifier: "ja_JP")
+//        return date
 //    }
-//}
+}

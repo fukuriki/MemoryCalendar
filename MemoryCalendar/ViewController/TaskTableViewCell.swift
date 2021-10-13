@@ -10,5 +10,10 @@ import UIKit
 
 class TaskTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var reviewDayLabel: UILabel!
     
+//    override class func awakeFromNib() {
+//
+//
+//    }
 }

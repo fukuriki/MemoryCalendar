@@ -5,6 +5,7 @@
 //  Created by 福井孝政 on 2021/09/26.
 //
 
+import Foundation
 import UIKit
 import FSCalendar
 import RealmSwift
@@ -13,8 +14,6 @@ class SetMemoryViewController: UIViewController {
     
     private let cellId = "cellId"
     var date = Date()
-//    let setMemoryViewController = SetMemoryViewController()
-//    weak var delegate: ToPassDataProtocol?
     
     @IBOutlet weak var setMemoryTableView: UITableView!
     
@@ -26,10 +25,6 @@ class SetMemoryViewController: UIViewController {
         setMemoryTableView.dataSource = self
         setMemoryTableView.register(UINib(nibName: "TaskTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
         
-        print("Setdate: ", date)
-        
-//        let child = self.date as! ContainerViewController
-//        child.dateInContainer = self.date
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -75,18 +70,16 @@ extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-//extension ViewController: ToPassDataProtocol {
-//    func dataDidSelect(data: Date) {
-////
-//    }
-//}
+
+
 
 class ContainerViewController: UIViewController {
     
-//    let setMemoryViewController = SetMemoryViewController().setMemoryViewController
-    
-//    let date = SetMemoryViewController().date
     var dateInContainer = Date()
+//    var textFieldText1: String? = ""
+//    var textFieldText1 = ""
+
+
     
     @IBAction func tappedNewTaskButton(_ sender: Any) {
         
@@ -102,6 +95,17 @@ class ContainerViewController: UIViewController {
         newTaskButton.layer.cornerRadius = 35
     }
     
+//    func searchBySearchBarText(textF: UITextField) {
+//                   switch textF.tag {
+//                   case 1: textFieldText1 = textF.text!
+//                   default: break
+//                   }
+//                   okAction.enabled =  textFieldText1.characters.count > 0 && textFieldText2.characters.count > 0 ? true : false
+//               if let alertTextField = textFieldText1 {
+//                   okAction.isEnabled = false
+//               }
+//    }
+
     
     private func popUpInterface() {
         
@@ -111,44 +115,133 @@ class ContainerViewController: UIViewController {
                     title: "復習すべきこと",
                     message: "Enter your task",
                     preferredStyle: UIAlertController.Style.alert)
+        
                 alert.addTextField(
                     configurationHandler: {(textField: UITextField!) in
                         alertTextField = textField
-//                        textField.text = self.label1.text
+//                        alertTextField?.delegate = self
+                        
+//                        func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//                        //        print("textField.text: ", textField.text)
+//                            }
                     })
-        alert.addAction(
-                    UIAlertAction(
-                        title: "Cancel",
-                        style: UIAlertAction.Style.cancel,
-                        handler: nil))
-                alert.addAction(
-                    UIAlertAction(
-                        title: "OK",
-                        style: UIAlertAction.Style.default) { _ in
+        
+        let cancelAction = UIAlertAction(
+            title: "Cancel",
+            style: UIAlertAction.Style.cancel,
+            handler: nil)
+        
+//        alert.addAction(
+//                    UIAlertAction(
+//                        title: "Cancel",
+//                        style: UIAlertAction.Style.cancel,
+//                        handler: nil))
+        
+        let okAction =  UIAlertAction(
+            title: "OK",
+            style: UIAlertAction.Style.default) { (action: UIAlertAction!) -> Void in
+        
+//                alert.addAction(
+//                    UIAlertAction(
+//                        title: "OK",
+//                        style: UIAlertAction.Style.default) { _ in
+                            
+                            
+//                            if alertTextField?.text == "" {
+//                                UIAlertAction.Style.default = false
+//                            }
+                            
+//                            if alertTextField?.text?.isEmpty {
+//
+//                            }
+                            
+//                            guard let text = alertTextField?.text else { return }
+                            
+//                            alertTextField?.text =
+                            
+                
+//                            let calendar = Calendar(identifier: .japanese)
+                            
+                            let day = self.dateInContainer.addingTimeInterval(60 * 60 * 24)
 
-                            print("tappedOKButton")
-                                
-//                            let day = SetMemoryViewController()
-//                                . setMemoryViewController
-//                                .date
+//                            let reviewDayLocale = Calendar.current.locale
+//                            let reviewDay1 = Calendar.current.dat
+
                             
-                            
-                            let day = self.dateInContainer
-                            
-                            
-//                            let day = Date()
-                                let reviewDay1 = Calendar.current.date(byAdding: .day, value: 1, to: day)
+                            let reviewDay1 = Calendar.current.date(byAdding: .day, value: 1, to: day)
                                 let reviewDay3 = Calendar.current.date(byAdding: .day, value: 3, to: day)
                                 let reviewDay7 = Calendar.current.date(byAdding: .day, value: 7, to: day)
                                 let reviewDay30 = Calendar.current.date(byAdding: .day, value: 30, to: day)
+                            
+                            do {
+                                let realm = try Realm()
+                                let Event = Event()
+                                Event.event = alertTextField?.text ?? ""
+                                Event.day = SettingDate.stringFromDate(date: day, format: "y-MM-dd")
+                                Event.reviewDay1 = SettingDate.stringFromDate(date: reviewDay1!, format: "y-MM-dd")
+                                Event.reviewDay3 = SettingDate.stringFromDate(date: reviewDay3!, format: "y-MM-dd")
+                                Event.reviewDay7 = SettingDate.stringFromDate(date: reviewDay7!, format: "y-MM-dd")
+                                Event.reviewDay30 = SettingDate.stringFromDate(date: reviewDay30!, format: "y-MM-dd")
                                 
-                                print(day)
-                                print(reviewDay1 ?? "")
-                                print(reviewDay3 ?? "")
-                                print(reviewDay7 ?? "")
-                                print(reviewDay30 ?? "")
-                    }
-                )
+                                try realm.write{
+                                    realm.add(Event)
+//                                    succees()
+                                    print(Realm.Configuration.defaultConfiguration.fileURL!)
+                                    
+                                }
+                            } catch {
+                                    print("create to do err")
+                                }
+                            }
+        
+//        func searchBySearchBarText(textF: UITextField) {
+//                       switch textF.tag {
+//                       case 1: self.textFieldText1 = textF.text!
+//                       default: break
+//                       }
+////                    okAction.enabled =  self.textFieldText1.characters.count > 0 ? true : false
+//            if alertTextField?.text == self.textFieldText1 {
+//                       okAction.isEnabled = false
+//                   }
+//                   }
+        
+//        if alertTextField?.text == "" {
+//            okAction.isEnabled = false
+//            print("Field空でし")
+//        } else if alertTextField?.text?.count ?? 1 >= 1 {
+//            okAction.isEnabled = true
+//            print("Field\(alertTextField?.text?.count)でし")
+//        }
+        
+//        okAction.isEnabled = false
+        alert.addAction(cancelAction)
+        alert.addAction(okAction)
                 self.present(alert, animated: true, completion: nil)
     }
+    
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        print("textField.text: ", textField.text)
+//    }
+    
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+////        print("textField.text: ", textField.text)
+//    }
+    
+    
+    
+    
+//    private func storeEventInfo() {
+//
+//        let event = Event(
+//        )
+//    }
 }
+
+//extension ContainerViewController: UITextFieldDelegate {
+//
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//
+////        let text = (textField.text! as NSString).chara
+////                print("textField.text: ", textField.text)
+//    }
+//}
