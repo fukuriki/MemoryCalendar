@@ -23,25 +23,16 @@
                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 1日目" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JYT-st-SFQ">
-                        <rect key="frame" x="328.5" y="37" width="46.5" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="D2X-W7-nVs" firstAttribute="top" secondItem="fnI-KD-qj2" secondAttribute="top" id="28m-2G-txD"/>
-                    <constraint firstItem="JYT-st-SFQ" firstAttribute="top" secondItem="fnI-KD-qj2" secondAttribute="top" constant="37" id="9cU-no-BLo"/>
-                    <constraint firstAttribute="trailing" secondItem="D2X-W7-nVs" secondAttribute="trailing" id="DIV-vv-5rO"/>
-                    <constraint firstAttribute="trailing" secondItem="JYT-st-SFQ" secondAttribute="trailing" constant="20" id="F0k-Yc-TPd"/>
                     <constraint firstItem="D2X-W7-nVs" firstAttribute="leading" secondItem="fnI-KD-qj2" secondAttribute="leading" id="Wap-vg-6Y0"/>
                     <constraint firstAttribute="bottom" secondItem="D2X-W7-nVs" secondAttribute="bottom" id="gsq-jp-nv0"/>
-                    <constraint firstAttribute="bottom" secondItem="JYT-st-SFQ" secondAttribute="bottom" constant="37" id="ii2-NG-Yst"/>
+                    <constraint firstAttribute="trailing" secondItem="D2X-W7-nVs" secondAttribute="trailing" id="swx-18-73A"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="reviewDayLabel" destination="JYT-st-SFQ" id="ViC-NJ-0WF"/>
+                <outlet property="eventTextView" destination="D2X-W7-nVs" id="uRh-Ih-aM4"/>
             </connections>
             <point key="canvasLocation" x="202.17391304347828" y="-113.50446428571428"/>
         </tableViewCell>

@@ -13,7 +13,12 @@ import RealmSwift
 class SetMemoryViewController: UIViewController {
     
     private let cellId = "cellId"
+    private var event = [Event]()
     var date = Date()
+    var editBarButtonItem: UIBarButtonItem!
+    var eventList: Results<Event>!
+//    var eventListArray = Array(eventList)
+
     
     @IBOutlet weak var setMemoryTableView: UITableView!
     
@@ -24,8 +29,55 @@ class SetMemoryViewController: UIViewController {
         setMemoryTableView.delegate = self
         setMemoryTableView.dataSource = self
         setMemoryTableView.register(UINib(nibName: "TaskTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
+//        setMemoryTableView.isEditing = true
+//        setMemoryTableView.allowsSelectionDuringEditing = true
         
+        
+//        navigationController?.navigationItem.leftBarButtonItem = UIButton
+        
+        editBarButtonItem = UIBarButtonItem(title: "編集", style: .done, target: self, action: #selector(tappedEditBarButton))
+        self.navigationItem.rightBarButtonItem = editBarButtonItem
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+//        print("aaaa")
+//        setMemoryTableView.reloadData()
+        
+//                setMemoryTableView.isEditing = true
+//                setMemoryTableView.allowsSelectionDuringEditing = true
+        
+//        if setMemoryTableView.isEditing {
+//
+//                   setMemoryTableView.isEditing = false
+//               }
+//               else {
+//                   setMemoryTableView.isEditing = true
+//               }
+
+//        下ないと落ちる
+        do {
+            let realm = try Realm()
+            eventList = realm.objects(Event.self)
+
+        } catch {
+//            ↓なくてもよくね？
+            setMemoryTableView.register(UINib(nibName: "TaskTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
+        }
+    }
+    
+    @objc private func tappedEditBarButton() {
+        if setMemoryTableView.isEditing {
+            print("tappedEditBarButtonf")
+            setMemoryTableView.isEditing = false
+        }
+        else {
+            print("tappedEditBarButtont")
+            setMemoryTableView.isEditing = true
+        }
+    }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ToContainerViewController" {
@@ -46,41 +98,165 @@ extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 40
+//        return 20
+        return eventList.count
     }
         
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = setMemoryTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! TaskTableViewCell
 //        cell.プロパティ
+//        cell.reviewDayLabel.text = "aiu"
+//        cell.eventTextView.text = "aiu"
+//        上二つ反映された
+        cell.selectionStyle = .default
+        
+        do {
+            let realm = try Realm()
+//            var eventList: Results<Event>!
+            eventList = realm.objects(Event.self)
+//            eventList = Array(eventList)
+            var eventListArray = Array(eventList)
+            print("eventList: ", eventListArray)
+            
+//            cell.reviewDayLabel.text = eventListArray[indexPath.row].reviewDay3.key
+            
+//            func getKey(value: Int, dictionary: [String: String]) -> String? {
+//
+//                for (key, value) in dictionary {
+//                    if value.contains(value) {
+//                        return key
+//                    }
+//                }
+//                return nil
+//            }
+            
+            
+            
+//            let keys = eventListArray.keys
+//            print(Array(eventListArray.keys))
+            
+            cell.eventTextView.text = eventListArray[indexPath.row].event
+//            cell.reviewDayLabel.text = eventListArray[indexPath.row].keys
+            
+//            func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+//                eventListArray.swapAt(sourceIndexPath.row, destinationIndexPath.row)
+//            }
+            
+        } catch {
+            
+//            cell.eventTextView.text = eventList[IndexPath.row].event
+//            setMemoryTableView.register(UINib(nibName: "TaskTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
+//            cell.eventTextView.text = eventList[indexPath.row].event
+            
+        }
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        setMemoryTableView.deselectRow(at: indexPath, animated: true)
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        setMemoryTableView.deselectRow(at: indexPath, animated: true)
+//    }
+    
+//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        print("trailingSwipeActionsConfigurationForRowAt")
+//
+//        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { action, view, completionHandler in
+//            completionHandler(true)
+//        }
+//        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+//        return configuration
+//    }
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
     }
     
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        print("trailingSwipeActionsConfigurationForRowAt")
+//    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+//        return true
+//    }
+    
+//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+//        return .none
+//    }
+    
+//    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+//        return false
+//    }
+    
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { action, view, completionHandler in
-            completionHandler(true)
-        }
-        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
-        return configuration
-    }
-}
+        do {
+            let realm = try Realm()
+            eventList = realm.objects(Event.self)
+            var eventListArray = Array(eventList)
+//            print("eventList: ", eventListArray)
+            
+            eventListArray.swapAt(sourceIndexPath.row, destinationIndexPath.row)
 
+        } catch {
+            
+        }
+        
+    }
+    
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//
+//        do {
+//            let realm = try Realm()
+//            eventList = realm.objects(Event.self)
+//            var eventListArray = Array(eventList)
+////            print("eventList: ", eventListArray)
+//            eventListArray.remove(at: indexPath.row)
+//            tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
+////            setMemoryTableView.reloadData()
+//
+//        } catch {
+//
+//        }
+//
+//        let realm: Realm
+//        do {
+//            let realm = try Realm()
+//            try realm.write() {
+//                let results = realm.objects(Event.self).filter("")
+////                realm.delete(results[])
+//            }
+//
+//        } catch {
+//
+//        }
+//
+//
+//
+////       if (editingStyle == UITableViewCell.EditingStyle.delete) {
+////        do {
+////            let realm = try Realm()
+//////            var eventListArray = Array(eventList)
+////            try realm.write {
+////                realm.delete(eventListArray[indexPath.row])
+////            }
+////            tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
+//////            setMemoryTableView.reloadData()
+////        } catch {
+////
+////        }
+////           tableView.reloadData()
+////        }
+//
+//    }
+    
+//    public func delete(_ object: Object)
+    
+//    func   findKeyForValue(value: Int, dictionary:)
+
+}
 
 
 
 class ContainerViewController: UIViewController {
     
     var dateInContainer = Date()
-//    var textFieldText1: String? = ""
-//    var textFieldText1 = ""
 
-
-    
     @IBAction func tappedNewTaskButton(_ sender: Any) {
         
         popUpInterface()
@@ -95,18 +271,6 @@ class ContainerViewController: UIViewController {
         newTaskButton.layer.cornerRadius = 35
     }
     
-//    func searchBySearchBarText(textF: UITextField) {
-//                   switch textF.tag {
-//                   case 1: textFieldText1 = textF.text!
-//                   default: break
-//                   }
-//                   okAction.enabled =  textFieldText1.characters.count > 0 && textFieldText2.characters.count > 0 ? true : false
-//               if let alertTextField = textFieldText1 {
-//                   okAction.isEnabled = false
-//               }
-//    }
-
-    
     private func popUpInterface() {
         
         var alertTextField: UITextField?
@@ -119,11 +283,6 @@ class ContainerViewController: UIViewController {
                 alert.addTextField(
                     configurationHandler: {(textField: UITextField!) in
                         alertTextField = textField
-//                        alertTextField?.delegate = self
-                        
-//                        func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//                        //        print("textField.text: ", textField.text)
-//                            }
                     })
         
         let cancelAction = UIAlertAction(
@@ -131,43 +290,13 @@ class ContainerViewController: UIViewController {
             style: UIAlertAction.Style.cancel,
             handler: nil)
         
-//        alert.addAction(
-//                    UIAlertAction(
-//                        title: "Cancel",
-//                        style: UIAlertAction.Style.cancel,
-//                        handler: nil))
-        
         let okAction =  UIAlertAction(
             title: "OK",
             style: UIAlertAction.Style.default) { (action: UIAlertAction!) -> Void in
-        
-//                alert.addAction(
-//                    UIAlertAction(
-//                        title: "OK",
-//                        style: UIAlertAction.Style.default) { _ in
                             
-                            
-//                            if alertTextField?.text == "" {
-//                                UIAlertAction.Style.default = false
-//                            }
-                            
-//                            if alertTextField?.text?.isEmpty {
-//
-//                            }
-                            
-//                            guard let text = alertTextField?.text else { return }
-                            
-//                            alertTextField?.text =
-                            
-                
-//                            let calendar = Calendar(identifier: .japanese)
-                            
-                            let day = self.dateInContainer.addingTimeInterval(60 * 60 * 24)
+                            let day = self.dateInContainer
+//                            let day = self.dateInContainer.addingTimeInterval(60 * 60 * 24)
 
-//                            let reviewDayLocale = Calendar.current.locale
-//                            let reviewDay1 = Calendar.current.dat
-
-                            
                             let reviewDay1 = Calendar.current.date(byAdding: .day, value: 1, to: day)
                                 let reviewDay3 = Calendar.current.date(byAdding: .day, value: 3, to: day)
                                 let reviewDay7 = Calendar.current.date(byAdding: .day, value: 7, to: day)
@@ -182,66 +311,19 @@ class ContainerViewController: UIViewController {
                                 Event.reviewDay3 = SettingDate.stringFromDate(date: reviewDay3!, format: "y-MM-dd")
                                 Event.reviewDay7 = SettingDate.stringFromDate(date: reviewDay7!, format: "y-MM-dd")
                                 Event.reviewDay30 = SettingDate.stringFromDate(date: reviewDay30!, format: "y-MM-dd")
-                                
+                                 
                                 try realm.write{
                                     realm.add(Event)
-//                                    succees()
                                     print(Realm.Configuration.defaultConfiguration.fileURL!)
-                                    
                                 }
                             } catch {
                                     print("create to do err")
                                 }
                             }
         
-//        func searchBySearchBarText(textF: UITextField) {
-//                       switch textF.tag {
-//                       case 1: self.textFieldText1 = textF.text!
-//                       default: break
-//                       }
-////                    okAction.enabled =  self.textFieldText1.characters.count > 0 ? true : false
-//            if alertTextField?.text == self.textFieldText1 {
-//                       okAction.isEnabled = false
-//                   }
-//                   }
-        
-//        if alertTextField?.text == "" {
-//            okAction.isEnabled = false
-//            print("Field空でし")
-//        } else if alertTextField?.text?.count ?? 1 >= 1 {
-//            okAction.isEnabled = true
-//            print("Field\(alertTextField?.text?.count)でし")
-//        }
-        
-//        okAction.isEnabled = false
         alert.addAction(cancelAction)
         alert.addAction(okAction)
                 self.present(alert, animated: true, completion: nil)
     }
-    
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//        print("textField.text: ", textField.text)
-//    }
-    
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-////        print("textField.text: ", textField.text)
-//    }
-    
-    
-    
-    
-//    private func storeEventInfo() {
-//
-//        let event = Event(
-//        )
-//    }
 }
 
-//extension ContainerViewController: UITextFieldDelegate {
-//
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//
-////        let text = (textField.text! as NSString).chara
-////                print("textField.text: ", textField.text)
-//    }
-//}

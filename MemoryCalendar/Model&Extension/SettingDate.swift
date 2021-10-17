@@ -11,8 +11,6 @@ import FSCalendar
 
 class SettingDate {
 
-//    let dateFormatter = DateFormatter()
-
     class func dateFromString(string: String, format: String) -> Date {
         let formatter: DateFormatter = DateFormatter()
         formatter.calendar = Calendar(identifier: .japanese)
@@ -26,13 +24,4 @@ class SettingDate {
         formatter.dateFormat = format
         return formatter.string(from: date)
     }
-
-//        var dateFormatter: DateFormatter = {
-//
-//            let formatter = DateFormatter()
-//            formatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "yddHHmm", options: 0, locale: Locale(identifier: "ja_JP"))
-//            return formatter
-//        }()
-
-
 }

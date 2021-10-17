@@ -7,23 +7,16 @@
 
 import UIKit
 import FSCalendar
+import RealmSwift
 
 class ViewController: UIViewController {
     
-//    let dateFormatter = DateFormatter()
     
     @IBOutlet weak var Calendar: FSCalendar!
     
-//    var dateFormatter: DateFormatter = {
+//    override func viewWillAppear(_ animated: Bool) {
 //
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "yddHHmm", options: 0, locale: Locale(identifier: "ja_JP"))
-//        return formatter
-//    }()
-    
-    override func viewWillAppear(_ animated: Bool) {
-
-    }
+//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +25,11 @@ class ViewController: UIViewController {
         Calendar.dataSource = self
 
     }
+    
+//    func getEvent() {
+        
+//        let results = realm?.objects(Event.self)
+//    }
 }
 
 extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
@@ -40,34 +38,29 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
         
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
         let setMemoryViewController = storyboard.instantiateViewController(withIdentifier: "Insert") as? SetMemoryViewController
+        let nav = UINavigationController(rootViewController: setMemoryViewController!)
+//        nav.modalPresentationStyle = .automatic
+        
         
         if let setMemoryViewController = setMemoryViewController {
-            
-//            SettingDate().dateFormatter
-//                let dateFormatter = DateFormatter()
-            
-//            let dateX = SettingDate
             
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "y-MM-dd"
             let string = dateFormatter.string(from: date)
             print("string: ", string)
-            
-//            setMemoryViewController.date =  dateFormatterForDateLabel(date: date)
-//            SettingDate.dateFromString(string: string, format: "y-MM-dd")
 
-//            setMemoryViewController.date =  date
             setMemoryViewController.date = SettingDate.dateFromString(string: string, format: "y-MM-dd")
             
-            present(setMemoryViewController, animated: true, completion: nil)
+            present(nav, animated: true, completion: nil)
         }
     }
     
-//    private func dateFormatterForDateLabel(date: Date) -> Date {
-//        let formatter = DateFormatter()
-//        formatter.dateStyle = .short
-//        formatter.timeStyle = .short
-//        formatter.locale = Locale(identifier: "ja_JP")
-//        return date
+//    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+//
+//        let date = SettingDate.stringFromDate(date: date, format: "y-MM-dd")
+//        var hasEvent: Bool = false
+//
+//        for eventModel in Event
 //    }
+    
 }

@@ -18,4 +18,12 @@ class Event: Object {
     @objc dynamic var reviewDay30: String = ""
 //    @objc dynamic var memo: String = ""
 
+//    override static func primaryKey() -> String? {
+//        return "event"
+//    }
+//
+//    override class func indexedProperties() -> [String] {
+////        return ["day"], ["reviewDay1"], ["reviewDay3"], ["reviewDay7"], ["reviewDay30"]
+//        return ["day, reviewDay1, reviewDay3, reviewDay7, reviewDay30"]
+//    }
 }
