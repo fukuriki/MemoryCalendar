@@ -16,7 +16,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="395" height="95"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="物理" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="D2X-W7-nVs">
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="デフォ" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="D2X-W7-nVs">
                         <rect key="frame" x="0.0" y="0.0" width="395" height="95"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <color key="textColor" systemColor="labelColor"/>

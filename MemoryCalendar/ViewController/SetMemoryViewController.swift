@@ -15,9 +15,12 @@ class SetMemoryViewController: UIViewController {
     private let cellId = "cellId"
     private var event = [Event]()
     var date = Date()
+//    var date = SettingDate()
+
+//    var dateString = SettingDate.stringFromDate(date: date, format: "y-MM-dd")
+//    var dateString = String(date)
     var editBarButtonItem: UIBarButtonItem!
     var eventList: Results<Event>!
-//    var eventListArray = Array(eventList)
 
     
     @IBOutlet weak var setMemoryTableView: UITableView!
@@ -25,15 +28,18 @@ class SetMemoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "y-MM-dd"
+//        let string = dateFormatter.string(from: date)
+//        print("viewDidLoadのstring: ", string)
+//
+//        self.date = SettingDate.dateFromString(string: string, format: "y-MM-dd")
+//        print("viewDidLoadのdate: ", date)
+        
         setMemoryTableView.delegate = self
         setMemoryTableView.dataSource = self
         setMemoryTableView.register(UINib(nibName: "TaskTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
-//        setMemoryTableView.isEditing = true
-//        setMemoryTableView.allowsSelectionDuringEditing = true
-        
-        
-//        navigationController?.navigationItem.leftBarButtonItem = UIButton
         
         editBarButtonItem = UIBarButtonItem(title: "編集", style: .done, target: self, action: #selector(tappedEditBarButton))
         self.navigationItem.rightBarButtonItem = editBarButtonItem
@@ -41,29 +47,13 @@ class SetMemoryViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-//        print("aaaa")
-//        setMemoryTableView.reloadData()
-        
-//                setMemoryTableView.isEditing = true
-//                setMemoryTableView.allowsSelectionDuringEditing = true
-        
-//        if setMemoryTableView.isEditing {
-//
-//                   setMemoryTableView.isEditing = false
-//               }
-//               else {
-//                   setMemoryTableView.isEditing = true
-//               }
 
-//        下ないと落ちる
         do {
             let realm = try Realm()
             eventList = realm.objects(Event.self)
 
         } catch {
-//            ↓なくてもよくね？
-            setMemoryTableView.register(UINib(nibName: "TaskTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
+            
         }
     }
     
@@ -98,10 +88,38 @@ extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 20
-        return eventList.count
-    }
         
+//        if let filteredEventList = eventList.contains(date) {
+//
+//        }
+        
+        
+        
+//        let dateString: String = "\(date)"
+        let dateString = SettingDate.stringFromDate(date: date, format: "y-MM-dd")
+//        print("dateString: ", dateString)
+        let eventListArray = Array(eventList)
+//        print("eventListArray: ", eventListArray)
+        
+        
+        
+        let filteredEventListArray = eventListArray.filter {
+//            $0.day.contains("2021-10-21")
+            $0.day.contains("\(dateString)")
+            || $0.reviewDay1.contains("\(dateString)") || $0.reviewDay3.contains("\(dateString)") || $0.reviewDay7.contains("\(dateString)") || $0.reviewDay30.contains("\(dateString)")
+        }
+        
+//        print("filteredEventListArray: ", filteredEventListArray)
+//        eventListArray.filter { <#Event#> in
+//            <#code#>
+//        }
+        
+//        return eventListArray.count
+        return filteredEventListArray.count
+        
+        }
+        
+    // MARK: - cellForRowAt
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = setMemoryTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! TaskTableViewCell
 //        cell.プロパティ
@@ -109,79 +127,67 @@ extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
 //        cell.eventTextView.text = "aiu"
 //        上二つ反映された
         cell.selectionStyle = .default
+        let dateString = SettingDate.stringFromDate(date: date, format: "y-MM-dd")
+        let eventListArray = Array(eventList)
+//        print("eventListArray: ", eventListArray)
         
-        do {
-            let realm = try Realm()
+        let filteredEventListArray = eventListArray.filter {
+            $0.day.contains("\(dateString)")
+            || $0.reviewDay1.contains("\(dateString)") || $0.reviewDay3.contains("\(dateString)") || $0.reviewDay7.contains("\(dateString)") || $0.reviewDay30.contains("\(dateString)")
+        }
+        
+        print("filteredEventListArrayInCellF: ", filteredEventListArray)
+//        let filteredEvent = filteredEventListArray.filter { <#Event#> in
+//            <#code#>
+//        }
+        
+        
+//        do {
+//            let realm = try Realm()
+            
+            
 //            var eventList: Results<Event>!
-            eventList = realm.objects(Event.self)
-//            eventList = Array(eventList)
-            var eventListArray = Array(eventList)
-            print("eventList: ", eventListArray)
+//            eventList = realm.objects(Event.self)
+            
+//            eventList = realm.objects(Event.self).filter {
+//
+//                $0.day.contains("\(dateString)")
+//                || $0.reviewDay1.contains("\(dateString)") || $0.reviewDay3.contains("\(dateString)") || $0.reviewDay7.contains("\(dateString)") || $0.reviewDay30.contains("\(dateString)")
+////                                \(dateString)
+////                                || ("\(dateString)") || ("\(dateString)") || ("\(dateString)") || ("\(dateString)")
+//            }
+            
+//            ("day = \(dateString)")
+//            || realm.objects(Event.self).filter("reviwwDay1 = \(dateString)") || realm.objects(Event.self).filter("reviwwDay3 = \(dateString)") || realm.objects(Event.self).filter("reviwwDay7 = \(dateString)") || realm.objects(Event.self).filter("reviwwDay30 = \(dateString)")
+            
             
 //            cell.reviewDayLabel.text = eventListArray[indexPath.row].reviewDay3.key
             
-//            func getKey(value: Int, dictionary: [String: String]) -> String? {
-//
-//                for (key, value) in dictionary {
-//                    if value.contains(value) {
-//                        return key
-//                    }
-//                }
-//                return nil
-//            }
-            
-            
-            
-//            let keys = eventListArray.keys
-//            print(Array(eventListArray.keys))
-            
-            cell.eventTextView.text = eventListArray[indexPath.row].event
+//            cell.eventTextView.text = eventListArray[indexPath.row].event
 //            cell.reviewDayLabel.text = eventListArray[indexPath.row].keys
+//            print("event: ", event)
             
-//            func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-//                eventListArray.swapAt(sourceIndexPath.row, destinationIndexPath.row)
+            
+            
+//            let filteredEventListArray = eventListArray.filter {
+//                $0.event.contains("ぴえん")
 //            }
+            cell.eventTextView.text = filteredEventListArray[indexPath.row].event
+
+
             
-        } catch {
-            
-//            cell.eventTextView.text = eventList[IndexPath.row].event
-//            setMemoryTableView.register(UINib(nibName: "TaskTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
-//            cell.eventTextView.text = eventList[indexPath.row].event
-            
-        }
+//        } catch {
+//
+//        }
         return cell
     }
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        setMemoryTableView.deselectRow(at: indexPath, animated: true)
-//    }
     
-//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        print("trailingSwipeActionsConfigurationForRowAt")
-//
-//        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { action, view, completionHandler in
-//            completionHandler(true)
-//        }
-//        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
-//        return configuration
-//    }
+    
     
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    
-//    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-//        return true
-//    }
-    
-//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-//        return .none
-//    }
-    
-//    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
-//        return false
-//    }
-    
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         
@@ -189,66 +195,12 @@ extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
             let realm = try Realm()
             eventList = realm.objects(Event.self)
             var eventListArray = Array(eventList)
-//            print("eventList: ", eventListArray)
-            
             eventListArray.swapAt(sourceIndexPath.row, destinationIndexPath.row)
 
         } catch {
             
         }
-        
     }
-    
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//
-//        do {
-//            let realm = try Realm()
-//            eventList = realm.objects(Event.self)
-//            var eventListArray = Array(eventList)
-////            print("eventList: ", eventListArray)
-//            eventListArray.remove(at: indexPath.row)
-//            tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
-////            setMemoryTableView.reloadData()
-//
-//        } catch {
-//
-//        }
-//
-//        let realm: Realm
-//        do {
-//            let realm = try Realm()
-//            try realm.write() {
-//                let results = realm.objects(Event.self).filter("")
-////                realm.delete(results[])
-//            }
-//
-//        } catch {
-//
-//        }
-//
-//
-//
-////       if (editingStyle == UITableViewCell.EditingStyle.delete) {
-////        do {
-////            let realm = try Realm()
-//////            var eventListArray = Array(eventList)
-////            try realm.write {
-////                realm.delete(eventListArray[indexPath.row])
-////            }
-////            tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
-//////            setMemoryTableView.reloadData()
-////        } catch {
-////
-////        }
-////           tableView.reloadData()
-////        }
-//
-//    }
-    
-//    public func delete(_ object: Object)
-    
-//    func   findKeyForValue(value: Int, dictionary:)
-
 }
 
 

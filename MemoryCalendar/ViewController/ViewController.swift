@@ -11,12 +11,7 @@ import RealmSwift
 
 class ViewController: UIViewController {
     
-    
     @IBOutlet weak var Calendar: FSCalendar!
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//
-//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,11 +20,6 @@ class ViewController: UIViewController {
         Calendar.dataSource = self
 
     }
-    
-//    func getEvent() {
-        
-//        let results = realm?.objects(Event.self)
-//    }
 }
 
 extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
@@ -38,18 +28,17 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
         
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
         let setMemoryViewController = storyboard.instantiateViewController(withIdentifier: "Insert") as? SetMemoryViewController
-        let nav = UINavigationController(rootViewController: setMemoryViewController!)
-//        nav.modalPresentationStyle = .automatic
-        
+        let nav = UINavigationController(rootViewController: setMemoryViewController!)        
         
         if let setMemoryViewController = setMemoryViewController {
             
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "y-MM-dd"
             let string = dateFormatter.string(from: date)
-            print("string: ", string)
+//            print("string: ", string)
 
             setMemoryViewController.date = SettingDate.dateFromString(string: string, format: "y-MM-dd")
+//            print("setMemoryViewController.date: ", setMemoryViewController.date)
             
             present(nav, animated: true, completion: nil)
         }
