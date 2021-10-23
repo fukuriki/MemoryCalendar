@@ -45,7 +45,8 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
     }
     
 //    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-//
+    
+//        let x = realm.objects(Event.self).first
 //        let date = SettingDate.stringFromDate(date: date, format: "y-MM-dd")
 //        var hasEvent: Bool = false
 //

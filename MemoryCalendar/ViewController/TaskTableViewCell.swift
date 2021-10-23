@@ -10,9 +10,7 @@ import UIKit
 import RealmSwift
 
 class TaskTableViewCell: UITableViewCell {
-    
-//    var eventList: Results<Event>!
-    
+        
     var event: Event? {
         didSet {
             
