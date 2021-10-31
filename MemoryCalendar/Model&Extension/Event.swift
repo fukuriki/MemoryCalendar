@@ -17,7 +17,12 @@ class Event: Object {
     @objc dynamic var reviewDay7: String = ""
     @objc dynamic var reviewDay30: String = ""
 //    dynamic var order: Int? = 0
+//    @objc dynamic var order: Int = 0
+//    let order: Int? = 0
+
 //    @objc dynamic var order: String? = ""
+//    @objc dynamic var order: String = ""
+
 //    let order: Int?
 //    @objc dynamic var memo: String = ""
     
@@ -25,8 +30,3 @@ class Event: Object {
 //    let dataWrapper = List<DataWrapper>()
 
 }
-
-//class DataWrapper: Object {
-//    let list = List<Event>()
-////    @objc dynamic var order = 0
-//}

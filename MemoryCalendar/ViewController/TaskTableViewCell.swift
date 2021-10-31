@@ -17,6 +17,12 @@ class TaskTableViewCell: UITableViewCell {
         }
     }
     
+    var dateRoom: DateRoom? {
+        didSet {
+            
+        }
+    }
+    
     
     @IBOutlet weak var eventTextView: UITextView!
 //    @IBOutlet weak var reviewDayLabel: UILabel!

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -13,9 +14,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
         // Override point for customization after application launch.
-        return true
-    }
+//        migration()
+//          let realm = try! Realm(configuration: )
+          return true
+        }
+
+////         Realmマイグレーション処理
+//        func migration() {
+//          // 次のバージョン（現バージョンが０なので、１をセット）
+//            let nextSchemaVersion: UInt64 = 1
+//
+//          // マイグレーション設定
+//          var config = Realm.Configuration(
+//            schemaVersion: nextSchemaVersion,
+//            migrationBlock: { migration, oldSchemaVersion in
+//              if (oldSchemaVersion < nextSchemaVersion) {
+//              }
+//            })
+//            Realm.Configuration.defaultConfiguration = config
+//            config.deleteRealmIfMigrationNeeded = true
+////            let realm = try! Realm(configuration: config)
+//
+////        return true
+//
+//    }
 
     // MARK: UISceneSession Lifecycle
 

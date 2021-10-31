@@ -18,7 +18,8 @@ class ViewController: UIViewController {
         
         Calendar.delegate = self
         Calendar.dataSource = self
-
+        
+//        print(Realm.Configuration.defaultConfiguration.fileURL!)
     }
 }
 
