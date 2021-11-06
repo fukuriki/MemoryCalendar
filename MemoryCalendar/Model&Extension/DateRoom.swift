@@ -13,4 +13,8 @@ class DateRoom: Object {
     @objc dynamic var event: String = ""
     @objc dynamic var dateRoomId: String = ""
     @objc dynamic var order: Int = 0
+    
+//    override static func primaryKey() -> String? {
+//        return "id"
+//    }
 }

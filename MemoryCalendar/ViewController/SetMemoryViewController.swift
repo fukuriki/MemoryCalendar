@@ -13,26 +13,12 @@ import RealmSwift
 class SetMemoryViewController: UIViewController {
     
     private let cellId = "cellId"
-//    let realm = try! Realm()
-//    lazy var realm = try! Realm()
-//    let realm = Realm()
-
-//    lazy var realm = Realm()
-//    let realm = try! Realm(configuration: )
-
-
-//    private var event = [Event]()
     var date = Date()
     var editBarButtonItem: UIBarButtonItem!
     var eventList: Results<Event>!
-//    var eventList: Results<Event>!
-//    var eventList: Result<Event>!
-
     var dateRoomList: Results<DateRoom>!
-//    var sortedData: Results<ItemList>!
-//    var sortedData: 
-//    var listedObject: List<Event>!
-
+    var eventString: String?
+    var isFirst = Bool()
     
     @IBOutlet weak var setMemoryTableView: UITableView!
     
@@ -46,18 +32,34 @@ class SetMemoryViewController: UIViewController {
         
         editBarButtonItem = UIBarButtonItem(title: "編集", style: .done, target: self, action: #selector(tappedEditBarButton))
         self.navigationItem.rightBarButtonItem = editBarButtonItem
-//        listedObject = realm.objects(DateWrapper.self).first?.order
-//        print("objects: ", listedObject)
-//        eventList = realm.objects(Event.self).sorted(by: <#T##Sequence#>)
-//        print("eventList: ", self.eventList)
-//        print(Realm.Configuration.defaultConfiguration.fileURL!)
-//        realmMigration()
+        
+//        let dateString = SettingDate.stringFromDate(date: date, format: "y-MM-dd")
+//        let eventListArray = Array(eventList)
+//
+//        let filteredEventListArray = eventListArray.filter {
+//            $0.day.contains("\(dateString)")
+//            || $0.reviewDay1.contains("\(dateString)") || $0.reviewDay3.contains("\(dateString)") || $0.reviewDay7.contains("\(dateString)") || $0.reviewDay30.contains("\(dateString)")
+//        }
+//
+//        do {
+//            let realm = try Realm()
+//            let dateRoom = DateRoom()
+//
+//            let dateRoomResult = realm.objects(DateRoom.self).filter("event CONTAINS '\(filteredEventListArray[indexPath.row].event)'")
+//
+//            if dateRoomResult.isEmpty == true {
+//                dateRoom.event = filteredEventListArray[indexPath.row].event
+//                dateRoom.dateRoomId = dateString
+//
+//                try realm.write{
+//                    realm.add(dateRoom)
+//                }
+//            }
+//
+//        } catch {
+//
+//            }
     }
-    
-//    override class func awakeFromNib() {
-//        super.awakeFromNib()
-//        realmMigration()
-//    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -83,21 +85,6 @@ class SetMemoryViewController: UIViewController {
             setMemoryTableView.isEditing = true
         }
     }
-    
-//    func realmMigration() {
-//
-//        let migSchemaVersion: UInt64 = 1
-//
-//        let config = Realm.Configuration(
-//            schemaVersion: migSchemaVersion,
-//            migrationBlock: { migration, oldSchemaVersion in
-//                if (oldSchemaVersion < migSchemaVersion) {
-//
-//                }
-//            })
-//        Realm.Configuration.defaultConfiguration = config
-//    }
-    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ToContainerViewController" {
@@ -129,29 +116,7 @@ extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
                 || $0.reviewDay1.contains("\(dateString)") || $0.reviewDay3.contains("\(dateString)") || $0.reviewDay7.contains("\(dateString)") || $0.reviewDay30.contains("\(dateString)")
             }
         return filteredEventListArray.count
-            
         }
-//        catch {
-//
-//        }
-        
-//        try! realm.write({
-//            let dateString = SettingDate.stringFromDate(date: date, format: "y-MM-dd")
-//            let eventListArray = Array(eventList)
-//
-//            let filteredEventListArray = eventListArray.filter {
-//                $0.day.contains("\(dateString)")
-//                || $0.reviewDay1.contains("\(dateString)") || $0.reviewDay3.contains("\(dateString)") || $0.reviewDay7.contains("\(dateString)") || $0.reviewDay30.contains("\(dateString)")
-//            }
-//
-//        return filteredEventListArray.count
-//        })
-//            let realm = try Realm()
-//            eventList = realm.objects(Event.self)
-//        var eventList = Results<Event>()
-
-            
-
         }
         
     // MARK: - cellForRowAt
@@ -164,40 +129,109 @@ extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.selectionStyle = .default
         let dateString = SettingDate.stringFromDate(date: date, format: "y-MM-dd")
-//        print("dateStringInC: ", dateString)
-//        var eventList: Results<Event>!
         let eventListArray = Array(eventList)
 
+//        選択日と合致する復習日を含むEventを取得
         let filteredEventListArray = eventListArray.filter {
             $0.day.contains("\(dateString)")
             || $0.reviewDay1.contains("\(dateString)") || $0.reviewDay3.contains("\(dateString)") || $0.reviewDay7.contains("\(dateString)") || $0.reviewDay30.contains("\(dateString)")
         }
+        
+        print("filteredEventListArray: ", filteredEventListArray)
+
 
 //            cell.reviewDayLabel.text = eventListArray[indexPath.row].keys
-        cell.eventTextView.text = filteredEventListArray[indexPath.row].event
+        eventString = filteredEventListArray[indexPath.row].event
+        cell.eventTextView.text = eventString
+//        print("eventString: ", eventString ?? "")
         
         do {
-            let realm = try Realm()
+            let realm = try! Realm()
             let dateRoom = DateRoom()
-//            let eventResult = realm.objects(Event.self)
-//            let dateRoomResult = realm.objects(DateRoom.self)
-            let dateRoomResult = realm.objects(DateRoom.self).filter("event CONTAINS '\(filteredEventListArray[indexPath.row].event)'")
-//            let stringDateRoomResult = String("\(dateRoomResult)")
-//            let dateRoomResult = realm.objects(DateRoom.self).filter("")
-//            print("dateRoomResult: ", dateRoomResult)
+            
+//            let dateRoomResult = realm.objects(DateRoom.self).filter("event CONTAINS '\(filteredEventListArray[indexPath.row].event)'")
+//                .last
+//            let keys = dateRoomResult.map
+            
+//            let dateRoomResultEvent = dateRoomResult?.event
+//            let secondFilteredEventListArray = realm.objects(Event.self).filter("dateRoomId CONTAINS '\(dateRoomResult?.dateRoomId ?? "")'")
 
             
-            if dateRoomResult.isEmpty == true {
+//            print("dateRoomResult: ", dateRoomResult ?? [])
+
+//            print("dateRoomResult?.dateRoomId: ", dateRoomResult?.dateRoomId ?? "")
+//            print("dateString: ", dateString)
+            
+//            print("dateRoomResultEvent: ", dateRoomResultEvent ?? "")
+//            print("filteredEventListArray[indexPath.row].event: ", filteredEventListArray[indexPath.row].event)
+
+//            let filteredDateRoomResult = dateRoomResult.filter("dateRoomId CONTAINS '\(dateString)'")
+//                .last
+            
+//                            if !isFirst { return }
+            
+            
+
+//            選択日と合致するdateRoomIdを持つDateRoomを取得
+            let filteredDateRoomResult = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
+            print("filteredDateRoomResult: ", filteredDateRoomResult)
+
+
+//            for dividedDateRoomResult in filteredDateRoomResult.indices
+//            {
+//                let dateRoom = DateRoom()
+
+//                let filteredDateRoomResult = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateRoomResult[dividedDateRoomResult].dateRoomId)'")
+//                let filteredDateRoomResult = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
+
+//                filteredDateRoomResult（選択日と合致するdateRoomIdを持つDateRoom）のevent名と合致するDateRoomを取得？のつもり
+//                しかし、DateRoom全体の一致するevent名取得してる
+            
+//                let dateRoomResultDiv = realm.objects(DateRoom.self).filter("event CONTAINS '\(filteredDateRoomResult[dividedDateRoomResult].event)'").last
+            
+//                let dateRoomResultDiv = realm.objects(DateRoom.self).filter("event CONTAINS '\(filteredEventListArray[dividedDateRoomResult].event)'")
+//                    .last
+
+//                let dateRoomResultDivArray = Array(dateRoomResultDiv)
+//                let dateRoomResultInd = realm.objects(DateRoom.self).filter("event CONTAINS '\(filteredEventListArray[indexPath.row].event)'")
+
+//                let dateRoomResultEvent = dateRoomResult?.event
+//                print("dateRoomResultEvent: ", dateRoomResultEvent ?? "")
+
+//                print("dateRoomResultDiv: ", dateRoomResultDiv )
+//                print("dateRoomResultDiv[indexPath.row].dateRoomId: ", dateRoomResultDiv[indexPath.row].dateRoomId)
+                
+//                print("dividedDateRoomResult: ", dividedDateRoomResult)
+
+
+//                if dateRoomResultDivArray[indexPath.row].dateRoomId != dateString
+//                if dateRoomResultDiv[dividedDateRoomResult].dateRoomId != dateString
+//                    if dateRoomResultDiv[indexPath.row].dateRoomId != dateString
+//                if dateRoomResultDiv[indexPath.row]["dateRoomId"] as! String != dateString
+//                if dateRoomResultDiv?.dateRoomId != dateString
+//                if dateRoomResultDiv.contains("\(dateString)")
+//                if dateRoomResultDiv?.dateRoomId != dateString
+//                    && dateRoomResultDiv. != filteredEventListArray[indexPath.row].event
+//                && dateRoomResultEvent != filteredEventListArray[indexPath.row].event
+//                        && dateRoomResultEvent != secondFilteredEventListArray
+//            {
+
+//                switch
+//                if !isFirst { return }
+//            if dateRoomResult.isEmpty == true {
+
                 dateRoom.event = filteredEventListArray[indexPath.row].event
                 dateRoom.dateRoomId = dateString
-//              print("dateStringInCInIf: ", dateString)
 
-
-                try realm.write{
+                try! realm.write{
+//                    dateRoom.event = filteredEventListArray[indexPath.row].event
+//                    dateRoom.dateRoomId = dateString
                     realm.add(dateRoom)
                 }
-            }
-           
+//            }
+//            } // indices
+//        }
+
         } catch {
 
             }
@@ -206,22 +240,17 @@ extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
     
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
-//        print("dateRoomList: ", dateRoomList.description)
-        
+                
         if editingStyle == UITableViewCell.EditingStyle.delete {
             
             do {
                 let realm = try Realm()
-//                let dateRoomListP = dateRoomList
-//                let ta = realm.objects(Event.self).first
+
                 try realm.write({
-//                    var eventList: Results<Event>!
                     realm.delete(eventList[indexPath.row])
                     realm.delete(dateRoomList)
 
                 })
-//                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAction.fade)
                 setMemoryTableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
             } catch {
         }
@@ -231,6 +260,26 @@ extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        
+//        do {
+//            let realm = try Realm()
+//            eventList = realm.objects(Event.self)
+//
+//            let eventListArray = Array(eventList)
+//            let dateString = SettingDate.stringFromDate(date: date, format: "y-MM-dd")
+//            let filteredEventListArray = eventListArray.filter {
+//                $0.day.contains("\(dateString)")
+//                || $0.reviewDay1.contains("\(dateString)") || $0.reviewDay3.contains("\(dateString)") || $0.reviewDay7.contains("\(dateString)") || $0.reviewDay30.contains("\(dateString)")
+//            }
+//
+////            print("filteredEventListArray: ", filteredEventListArray)
+//            eventString = filteredEventListArray[indexPath.row].event
+//            print("eventString: ", eventString ?? "")
+//
+//        } catch {
+//            print("エラーですぞ")
+//        }
+
         return true
     }
     
@@ -238,136 +287,45 @@ extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
 
         do {
             let realm = try Realm()
-//            var eventList: Results<Event>!
             eventList = realm.objects(Event.self)
             dateRoomList = realm.objects(DateRoom.self)
-//            let dateRoomResult = realm.objects(DateRoom.self).filter("event CONTAINS '\(filteredEventListArray[indexPath.row].event)'")
-//            listedObject = realm.objects(DateWrapper.self).first?.list
-//            print("listedObject: ", listedObject)
+
             var eventListArray = Array(eventList)
-//            print("eventListArray: ", eventListArray)
             let dateString = SettingDate.stringFromDate(date: date, format: "y-MM-dd")
             let filteredEventListArray = eventListArray.filter {
                 $0.day.contains("\(dateString)")
                 || $0.reviewDay1.contains("\(dateString)") || $0.reviewDay3.contains("\(dateString)") || $0.reviewDay7.contains("\(dateString)") || $0.reviewDay30.contains("\(dateString)")
             }
+            
             print("filteredEventListArray: ", filteredEventListArray)
+            print("eventListArray: ", eventListArray)
 
-            var dateRoomListArray = Array(dateRoomList)
+//            var dateRoomListArray = Array(dateRoomList)
             eventListArray.swapAt(sourceIndexPath.row, destinationIndexPath.row)
-            dateRoomListArray.swapAt(sourceIndexPath.row, destinationIndexPath.row)
-            
-//            let nextSchemaVersion: UInt64 = 2
-//
-//            var config = Realm.Configuration(
-//                schemaVersion: 2,
-//                migrationBlock: { migration, oldSchemaVersion in
-//                    if (oldSchemaVersion < 2) {
-//
-//                    }
-//                })
-//
-//                    Realm.Configuration.defaultConfiguration = config
-//            config.deleteRealmIfMigrationNeeded = true
-
-//            let event = Event()
-//            let dateRoom = DateRoom()
-            
-            
-//            print("dateRoomListArray: ", dateRoomListArray)
-            
-//            この二ついる？
-//            let dateString = SettingDate.stringFromDate(date: date, format: "y-MM-dd")
-//
-//            let filteredEventListArray = eventListArray.filter {
-//                $0.day.contains("\(dateString)")
-//                || $0.reviewDay1.contains("\(dateString)") || $0.reviewDay3.contains("\(dateString)") || $0.reviewDay7.contains("\(dateString)") || $0.reviewDay30.contains("\(dateString)")
-//            }
+//            dateRoomListArray.swapAt(sourceIndexPath.row, destinationIndexPath.row)
             
             let dateRoomResult = realm.objects(DateRoom.self)
-            print("dateRoomResult: ", dateRoomResult)
+//            print("dateRoomResult: ", dateRoomResult)
             
             for allIndex in dateRoomResult.indices {
                 let filteredDateRoomResult = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateRoomResult[allIndex].dateRoomId)'")
                 let secondFilteredDateRoomResult = filteredDateRoomResult.filter("event == '\(dateRoomResult[allIndex].event)'")
-//                    .first
-                print("filteredDateRoomResult: ", filteredDateRoomResult)
-                print("secondFilteredDateRoomResult: ", secondFilteredDateRoomResult)
-                print("allIndex: ", allIndex)
-                
-//                if secondFilteredDateRoomResult == filteredEventListArray {
-//                }
-                
-            
-                for eventAllIndex in filteredEventListArray.indices {
-                    let equalQuery = secondFilteredDateRoomResult.filter("event == '\(filteredEventListArray[eventAllIndex].event)'")
+//                print("filteredDateRoomResult: ", filteredDateRoomResult)
+//                print("secondFilteredDateRoomResult: ", secondFilteredDateRoomResult)
+//                print("allIndex: ", allIndex)
+  
+                    let equalQuery = secondFilteredDateRoomResult.filter("event == '\(filteredEventListArray[sourceIndexPath.row].event)'")
                         .first
-//                let equalQuery = filteredEventListArray.filter("event == '\(secondFilteredDateRoomResult[allIndex].event)'")
-//                    print("equalQuery: ", equalQuery)
-//                    var equalQueryArray = Array(arrayLiteral: equalQuery)
-                    
-//                    let holdingCell = filteredEventListArray[sourceIndexPath.row]
-//                    holdingCell.
-                    
+                
+                if equalQuery?.dateRoomId == dateString {
+
                         try! realm.write({
-                            
-//                            let equalQueryArraySource = equalQueryArray[sourceIndexPath.row]
-//                            equalQueryArray.remove(at: sourceIndexPath.row)
-//                    equalQueryArray.insert(contentsOf: equalQueryArray, at: destinationIndexPath.row)
-                            
+
                             equalQuery?.order = destinationIndexPath.row
                             print("equalQuery: ", equalQuery ?? [])
                         })
                 }
             }
-            
-//            let dateRoomResult = realm.objects(DateRoom.self).filter("event == '\(dateRoomListArray.)'").first
-//            let filteredDateRoomResult = realm.objects(DateRoom.self).filter("event == '\(dateRoomResult[].event)'")
-            //            ↑おごくやーつ
-//            print("filteredEventListArray: ", filteredEventListArray)
-
-            
-//            cell.eventTextView.text = filteredEventListArray[indexPath.row].event  見本
-//            let cellIncludingOrder = filteredEventListArray[indexPath.row].order
-//            var eventOrder = event.order
-//            eventOrder = cellIncludingOrder
-            
-//            let filteredOrder = realm.objects(Event.self).filter()
-            
-//            var filteredOrder = realm.objects(Event.self).value(forKey: "order")
-
-            
-//            var eventOrder = event.order
-//            eventOrder = destinationIndexPath.row
-            
-//            event.order = destinationIndexPath.row
-//            print("event.order: ", event.order)
-//
-//            try! realm.write({
-//                realm.add(dateRoom)
-                
-//                let results = dateRoomList
-//                results[].order = destinationIndexPath.row
-                
-//                dateRoomListArray
-//                dateRoomResult?.order = destinationIndexPath.row
-//                ↑動くやーつ
-                
-//                dateRoom.order = destinationIndexPath.row
-//                print("dateRoom.order: ", dateRoom.order)
-//                print("dateRoom.event: ", dateRoom.event)
-                
-//                eventOrder = destinationIndexPath.row
-//                event.order = destinationIndexPath.row
-//                print("event.order: ", event.order)
-
-//                filteredOrder.order = destinationIndexPath.row
-//                realm.add(filteredOrder as! Object)
-
-                
-////                realm.add(event, update: .modified)
-//                setMemoryTableView.reloadData()
-//            })
 
         } catch {
             print("エラーですぞ")
@@ -440,7 +398,6 @@ class ContainerViewController: UIViewController {
                                 try realm.write{
                                     realm.add(Event)
 //                                    print(Realm.Configuration.defaultConfiguration.fileURL!)
-//                                    Event.list.append(objectsIn: list)
                                 }
                             } catch {
                                     print("create to do err")
