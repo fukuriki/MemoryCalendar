@@ -26,6 +26,8 @@ class TaskTableViewCell: UITableViewCell {
     
     @IBOutlet weak var eventTextView: UITextView!
 //    @IBOutlet weak var reviewDayLabel: UILabel!
+    @IBOutlet weak var priorityLabel: UILabel!
+    
     
     override func awakeFromNib() {
         
