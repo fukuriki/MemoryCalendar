@@ -23,6 +23,31 @@ class SetMemoryViewController: UIViewController {
     var tappedFilteredDateRoomResultProperty: Results<DateRoom>!
 //    var tableViewOrder = Int()
 //    var filteredDateRoomResultArray: Array? = []
+    var moveRowToTappedEditButton = Int()
+//    static var filteredDateRoomResultArray = [Results<DateRoom>]()
+    
+    struct FilteredDateRoomResultArrayStruct {
+        var date = Date()
+        var filteredDateRoomResultArray: [DateRoom] {
+//            get {
+                do {
+                    let realm = try Realm()
+                
+                    let dateString = SettingDate.stringFromDate(date: date, format: "y-MM-dd")
+                    let filteredDateRoomResult = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
+                    print("filteredDateRoomResultInM: ", filteredDateRoomResult)
+                    let filteredDateRoomResultArray = Array(filteredDateRoomResult)
+                    return filteredDateRoomResultArray
+//                    return filteredDateRoomResultArray
+                } catch {
+
+                }
+
+//            } set {
+//
+//            }
+        }
+    }
     
     @IBOutlet weak var setMemoryTableView: UITableView!
     
@@ -56,6 +81,41 @@ class SetMemoryViewController: UIViewController {
             print("tappedEditBarButtonf")
             setMemoryTableView.isEditing = false
             
+            do {
+                let realm = try Realm()
+                let dateString = SettingDate.stringFromDate(date: date, format: "y-MM-dd")
+
+//                let filteredDateRoomResult = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
+//                print("filteredDateRoomResultInEditBarButton: ", filteredDateRoomResult)
+                
+                if let indexPaths = setMemoryTableView.indexPathsForVisibleRows {
+                for indexPath in indexPaths {
+    //            これで見えてる全セルのindexPathとれる？
+//                    print("indexPaths: ", indexPaths)
+//                    print("indexPath: ", indexPath)
+                    
+                    try! realm.write({
+
+                        let filteredDateRoomResultArrayStruct = FilteredDateRoomResultArrayStruct()
+//                        if filteredDateRoomResultArray == filteredDateRoomResultArray {
+                        for allIndex in filteredDateRoomResultArrayStruct.filteredDateRoomResultArray.indices {
+
+//                            allIndex[]
+                            print("allIndex: ", allIndex)
+//                            filteredDateRoomResultArray[allIndex].order = indexPath.row
+
+                        }
+//                        filteredDateRoomResultArray[indexPath.row].order = indexPath.row
+//                        filteredDateRoomResult[indexPath.row].order = indexPath.rowfilteredDateRoomResultArray
+//                                             ↑↑  >                     ↑↑
+//                        }
+                    })
+                }
+                }
+            } catch {
+                
+            }
+           
         }
         else {
 //            編集モード中
@@ -123,25 +183,16 @@ extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
 
 //            選択日と合致するdateRoomIdを持つDateRoomを取得
         let filteredDateRoomResult = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
-            print("filteredDateRoomResult: ", filteredDateRoomResult)
+//            print("filteredDateRoomResult: ", filteredDateRoomResult)
         
-//        guard let filteredDateRoomResultArray = filteredDateRoomResult else { return }
-        
-        
-//        if let unwrappedFilteredDateRoomResultArray = filteredDateRoomResultArray {
-        
-//        let secondFilteredDateRoomResult = unwrappedFilteredDateRoomResultArray.filter("event == '\(filteredEventListArray[indexPath.row].event)'")
         let secondFilteredDateRoomResult = filteredDateRoomResult.filter("event == '\(filteredEventListArray[indexPath.row].event)'")
-        print("secondFilteredDateRoomResult: ", secondFilteredDateRoomResult)
+//        print("secondFilteredDateRoomResult: ", secondFilteredDateRoomResult)
                 
 //   [DateRoom]
 //        dateRoomIndexPathRow = filteredDateRoomResult[indexPath.row]
 //        dateRoomResultProperty = secondFilteredDateRoomResult
 
-        if secondFilteredDateRoomResult.isEmpty == true
-//        if secondFilteredDateRoomResult.isEmpty == true
-//            && secondFilteredDateRoomResult == nil
-        {
+        if secondFilteredDateRoomResult.isEmpty == true {
 
                 dateRoom.event = filteredEventListArray[indexPath.row].event
                 dateRoom.dateRoomId = dateString
@@ -152,22 +203,8 @@ extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
                     dateRoomIndexPathRow = filteredDateRoomResult[indexPath.row]
             }
         else {
-                print("既に部屋が存在しています")
                 cell.priorityLabel.text = String(filteredDateRoomResult[indexPath.row].order)
-            
-//            setMemoryTableView.cellForRow(at: indexPath)
-//            setMemoryTableView.cellForRow(at: secondFilteredDateRoomResult[indexPath.row].order)
-//            dateRoom.order = filteredDateRoomResult[indexPath.row].order
-//            dateRoom.order = secondFilteredDateRoomResult[indexPath.row].order
-            
-            
-            
-            
-            
-//                cell.index(ofAccessibilityElement: filteredDateRoomResult[indexPath.row].order)
-//                filteredDateRoomResult[indexPath.row].order
             }
-//        } //if
         return cell
     }
     
@@ -211,49 +248,47 @@ extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
                 $0.day.contains("\(dateString)")
                 || $0.reviewDay1.contains("\(dateString)") || $0.reviewDay3.contains("\(dateString)") || $0.reviewDay7.contains("\(dateString)") || $0.reviewDay30.contains("\(dateString)")
             }
-                        
+
             let filteredDateRoomResult = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
-            print("filteredDateRoomResult: ", filteredDateRoomResult)
+            print("filteredDateRoomResultInM: ", filteredDateRoomResult)
 
             let tappedFilteredDateRoomResult = filteredDateRoomResult.filter("event == '\(filteredEventListArray[sourceIndexPath.row].event)'")
             print("tappedFilteredDateRoomResult: ", tappedFilteredDateRoomResult)
-            var filteredDateRoomResultArray = Array(filteredDateRoomResult)
-            print("filteredDateRoomResultArray: ", filteredDateRoomResultArray)
-
-//            tappedFilteredDateRoom = tappedFilteredDateRoomResult
-//            tableViewOrder = destinationIndexPath.row
             
-//            filteredEventListArray.swapAt(sourceIndexPath.row, destinationIndexPath.row)
+            let filteredDateRoomResultArrayStruct = FilteredDateRoomResultArrayStruct()
+            let filteredDateRoomResultArrayInM = filteredDateRoomResultArrayStruct.filteredDateRoomResultArray
+//            filteredDateRoomResultArray = Array(arrayLiteral: filteredDateRoomResult)
+//            filteredDateRoomResultArray.append(filteredDateRoomResult)
+//            var filteredDateRoomResultArray = Array(filteredDateRoomResult)
+            print("filteredDateRoomResultArrayInM: ", filteredDateRoomResultArrayInM)
+
+//            a
+            let tappedArray = Array(tappedFilteredDateRoomResult)
+//            print("tappedArray.last!.order: ", tappedArray.last!.order)
+            
+
+//            SetMemoryViewController.filteredDateRoomResultArray.remove(at: tappedArray.last!.order)
+////            SetMemoryViewController.filteredDateRoomResultArray.remove(at: sourceIndexPath.row)
+////            filteredDateRoomResultArray.remove(at: tappedArray.last!.order)
+//            print("filteredDateRoomResultArrayAfterRemove: ", SetMemoryViewController.filteredDateRoomResultArray)
+            
 //            filteredDateRoomResultArray.swapAt(sourceIndexPath.row, destinationIndexPath.row)
-            
-//            let tappedDateRoomInfo = tappedFilteredDateRoomResult.last
-            
-//            var tappedOrder = tappedFilteredDateRoomResult.last?.order
-//            print("tappedOrder: ", tappedOrder ?? 0)
-
-                            try! realm.write({
-                                
-                                let tapped = tappedFilteredDateRoomResult
-                                
-//                                filteredDateRoomResultArray.remove(at: sourceIndexPath.row)
-                                filteredDateRoomResultArray.remove(at: tapped.last?.order ?? 0)
-                                print("filteredDateRoomResultArrayAfterRemove: ", filteredDateRoomResultArray)
 
 
-                                tapped.last?.order = destinationIndexPath.row
+//                                tapped.last?.order = destinationIndexPath.row
 //                                tappedOrder = destinationIndexPath.row
-                                
+
 //                                filteredDateRoomResultArray[tappedOrder ?? 0].order = destinationIndexPath.row
-                                
+
 //                                filteredDateRoomResultArray[destinationIndexPath.row].order = destinationIndexPath.row
-                                
+
 //                                filteredDateRoomResultArray.swapAt(sourceIndexPath.row, destinationIndexPath.row)
 //                                print("filteredDateRoomResultArray.swapAt: ", filteredDateRoomResultArray)
-                                
-                                
+
+
 //                                let moveDataSource = filteredDateRoomResultArray[sourceIndexPath.row].order
 //                                let moveDataDestination = filteredDateRoomResultArray[destinationIndexPath.row].order
-                                
+
 //                                let moveData = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
 //                                let moveData = tappedFilteredDateRoomResult
 //                                    .last
@@ -265,23 +300,29 @@ extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
 //                                filteredDateRoomResultArray.remove(at: sourceIndexPath.row)
 //                                print("filteredDateRoomResultArrayAfterRemove: ", filteredDateRoomResultArray)
 
-                                filteredDateRoomResultArray.insert(contentsOf: tapped, at: destinationIndexPath.row)
-//                                filteredDateRoomResultArray.insert(contentsOf: moveData, at: moveDataDestination)
-//                                filteredDateRoomResultArray.insert(contentsOf: moveData, at: destinationIndexPath.row)
-
-//                                filteredDateRoomResultArray.insert(contentsOf: tappedFilteredDateRoomResult, at: destinationIndexPath.row)
-                                print("filteredDateRoomResultArrayAfterInsert: ", filteredDateRoomResultArray)
-                                
-//                                filteredDateRoomResultArray.swapAt(sourceIndexPath.row, destinationIndexPath.row)
-//                                print("filteredDateRoomResultArray.swapAt: ", filteredDateRoomResultArray)
-
-                                
-//                                print("filteredDateRoomResultArray[tappedOrder].order: ", filteredDateRoomResultArray[tappedOrder ?? 0].order)
-//                                print("filteredDateRoomResultArray[destinationIndexPath.row].order: ", filteredDateRoomResultArray[destinationIndexPath.row].order)
-
-    //                            setMemoryTableView.reloadData()
-    //                            setMemoryTableView.
-                            })
+//            _______
+////            b
+//                filteredDateRoomResultArrayStruct.filteredDateRoomResultArray.append(tappedFilteredDateRoomResult)
+////                filteredDateRoomResultArray.insert(tappedFilteredDateRoomResult, at: destinationIndexPath.row)
+////                filteredDateRoomResultArray.insert(tappedArray, at: destinationIndexPath.row)
+////                                filteredDateRoomResultArray.insert(contentsOf: moveData, at: moveDataDestination)
+////                                filteredDateRoomResultArray.insert(contentsOf: moveData, at: destinationIndexPath.row)
+//
+////                                filteredDateRoomResultArray.insert(contentsOf: tappedFilteredDateRoomResult, at: destinationIndexPath.row)
+//            print("filteredDateRoomResultArrayAfterAppend: ", filteredDateRoomResultArrayStruct.filteredDateRoomResultArray)
+//
+//                filteredDateRoomResultArrayStruct.filteredDateRoomResultArray.remove(at: tappedArray.last!.order)
+////            SetMemoryViewController.filteredDateRoomResultArray.remove(at: sourceIndexPath.row)
+////            filteredDateRoomResultArray.remove(at: tappedArray.last!.order)
+//            print("filteredDateRoomResultArrayAfterRemove: ", filteredDateRoomResultArrayStruct.filteredDateRoomResultArray)
+//
+////                                filteredDateRoomResultArray.swapAt(sourceIndexPath.row, destinationIndexPath.row)
+////                                print("filteredDateRoomResultArray.swapAt: ", filteredDateRoomResultArray)
+//
+//
+////                                print("filteredDateRoomResultArray[tappedOrder].order: ", filteredDateRoomResultArray[tappedOrder ?? 0].order)
+////                                print("filteredDateRoomResultArray[destinationIndexPath.row].order: ", filteredDateRoomResultArray[destinationIndexPath.row].order)
+//            ____
             } catch {
                 print("エラーですぞ")
             }
