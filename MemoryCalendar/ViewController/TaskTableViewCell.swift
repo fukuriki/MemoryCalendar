@@ -23,6 +23,10 @@ class TaskTableViewCell: UITableViewCell {
         }
     }
     
+//    var fetchCurrentIndexInfo = {
+//
+//    }
+    
     
     @IBOutlet weak var eventTextView: UITextView!
 //    @IBOutlet weak var reviewDayLabel: UILabel!
