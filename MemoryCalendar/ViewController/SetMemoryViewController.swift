@@ -259,7 +259,7 @@ extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
             let filteredDateRoomResult = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
             print("filteredDateRoomResultInM: ", filteredDateRoomResult)
             
-            objects = realm.objects(DateRoomList.self).first?.list
+//            objects = realm.objects(DateRoomList.self).first?.list
             
 //            closure?
 //            let closure = { (indexPathParameter: IndexPath) -> IndexPath in
