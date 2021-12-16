@@ -218,6 +218,7 @@ extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
 class ContainerViewController: UIViewController {
     
     var dateInContainer = Date()
+    weak var delegate: ToPassDataProtocol?
 
     @IBAction func tappedNewTaskButton(_ sender: Any) {
         

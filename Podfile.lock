@@ -5,22 +5,26 @@ PODS:
   - Realm/Headers (10.15.1)
   - RealmSwift (10.15.1):
     - Realm (= 10.15.1)
+  - SnapKit (5.0.1)
 
 DEPENDENCIES:
   - FSCalendar
   - RealmSwift
+  - SnapKit (~> 5.0.0)
 
 SPEC REPOS:
   trunk:
     - FSCalendar
     - Realm
     - RealmSwift
+    - SnapKit
 
 SPEC CHECKSUMS:
   FSCalendar: e6a2eb9c571bf0719ed797ef807e08426753c241
   Realm: fbcbde2620d51623cc5b18e28f5b165c39abef52
   RealmSwift: e4bea8e42efad3d543aea23b56504069c6faaea2
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: 869efb58bed19a45c587e233bb2c9a3e37271f03
+PODFILE CHECKSUM: e00e9831e24095cccb53063963193e1de2ab9b2d
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2

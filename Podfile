@@ -6,6 +6,8 @@ target 'MemoryCalendar' do
   use_frameworks!
  pod 'FSCalendar'
  pod 'RealmSwift'
+ pod 'SnapKit', '~> 5.0.0'
+
   # Pods for MemoryCalendar
 
   target 'MemoryCalendarTests' do

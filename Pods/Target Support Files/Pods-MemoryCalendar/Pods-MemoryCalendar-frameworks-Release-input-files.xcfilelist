@@ -2,3 +2,4 @@ ${PODS_ROOT}/Target Support Files/Pods-MemoryCalendar/Pods-MemoryCalendar-framew
 ${BUILT_PRODUCTS_DIR}/FSCalendar/FSCalendar.framework
 ${BUILT_PRODUCTS_DIR}/Realm/Realm.framework
 ${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework
+${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework
