@@ -28,8 +28,16 @@ class ViewController: UIViewController {
         
         Calendar.delegate = self
         Calendar.dataSource = self
-//        print(Realm.Configuration.defaultConfiguration.fileURL!)
         eventList = self.realm.objects(Event.self)
+        
+//        print(Realm.Configuration.defaultConfiguration.fileURL!)
+            try! realm.write({
+                realm.deleteAll()
+            })
+        
+        
+//        NotificationCenter.default.addObserver(self, selector: #selector(doSomething), name: .notifyName, object: nil)
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -37,6 +45,10 @@ class ViewController: UIViewController {
         
 //        print("viewWillAppear")
     }
+    
+//    @objc private func reloadTableView() {
+//        setMemoryTableView.reloadData()
+//    }
 }
 
 extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
@@ -80,5 +92,8 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
         } else {
             return filteredEventString
         }
+        
+//        NotificationCenter.default.post(name: .notifyName, object: nil)
+
     }
 }
