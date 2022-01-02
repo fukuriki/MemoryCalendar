@@ -7,16 +7,32 @@
 
 import UIKit
 import RealmSwift
+import UserNotifications
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    var window: UIWindow?
+    let applicationKey = ""
+    let clientKey = ""
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        // Override point for customization after application launch.
-          return true
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            
+            if ((error != nil)) {
+                return
+            }
+            
+            guard granted else { return }
+            
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+        }
+        
+        return true
         }
 
     // MARK: UISceneSession Lifecycle

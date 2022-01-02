@@ -9,16 +9,20 @@ import UIKit
 import FSCalendar
 import RealmSwift
 import SnapKit
+//import SwiftUI
 
-class ViewController: UIViewController {
+class ViewController: UIViewController
+//, UIViewRepresentable
+{
     
-    let realm = try! Realm()
     var eventList: Results<Event>!
     var reviewDay1Key: String?
     var reviewDay3Key: String?
     var reviewDay7Key: String?
     var reviewDay30Key: String?
     var eventString = ""
+    var eachSecondEvent = ""
+    var eachThirdEvent = ""
 
     @IBOutlet weak var Calendar: FSCalendar!
     
@@ -28,28 +32,40 @@ class ViewController: UIViewController {
         
         Calendar.delegate = self
         Calendar.dataSource = self
-        eventList = self.realm.objects(Event.self)
         
-//        print(Realm.Configuration.defaultConfiguration.fileURL!)
-            try! realm.write({
-                realm.deleteAll()
-            })
+        do {
+            let realm = try Realm()
+            eventList = realm.objects(Event.self)
+            
+    //        print(Realm.Configuration.defaultConfiguration.fileURL!)
+    //        try! realm.write({
+    //            realm.deleteAll()
+    //        })
+        } catch {
+            
+        }
         
-        
-//        NotificationCenter.default.addObserver(self, selector: #selector(doSomething), name: .notifyName, object: nil)
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-//        print("viewWillAppear")
+        print("viewWillAppear")
+        self.Calendar.reloadData()
+//        updateUIView(<#T##uiView: UIViewRepresentable.UIViewType##UIViewRepresentable.UIViewType#>, context: <#T##UIViewRepresentableContext<UIViewRepresentable>#>)
     }
     
-//    @objc private func reloadTableView() {
-//        setMemoryTableView.reloadData()
+//    func updateUIView(_ uiView: FSCalendar, context: Context) {
+//
 //    }
+    
 }
+
+//protocol Update {
+//    func updateUIView(_ uiView: FSCalendar) {
+//        uiView.reloadData()
+//    }
+//}
 
 extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
     
@@ -81,19 +97,47 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
     
     func calendar(_ calendar: FSCalendar, subtitleFor date: Date) -> String? {
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "y-MM-dd"
-        let dateString = dateFormatter.string(from: date)
-        let filteredEventString = realm.objects(DateRoomList.self).filter("dateRoomId contains '\(dateString)'").first?.list.first?.event
-        
-        if filteredEventString == nil {
-            let filteredEventStringInDateRoom = realm.objects(DateRoom.self).filter("dateRoomId contains '\(dateString)'").first?.event
-            return filteredEventStringInDateRoom
-        } else {
-            return filteredEventString
-        }
-        
-//        NotificationCenter.default.post(name: .notifyName, object: nil)
+//        print("subtitleFor")
+        do {
+            
+            let realm = try Realm()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "y-MM-dd"
+            let dateString = dateFormatter.string(from: date)
+            let filteredEventString = realm.objects(DateRoomList.self).filter("dateRoomId contains '\(dateString)'").first?.list.first?.event
+            
+//            dateRoomListの２番目と３番目のevent取得しようとしてるやつ
+//            let filteredListInDateRoomList = realm.objects(DateRoomList.self).filter("dateRoomId contains '\(dateString)'")
+//
+//            for indexA in filteredListInDateRoomList.indices {
+//                self.eachSecondEvent = filteredListInDateRoomList.last?.list[indexA + 1].event ?? ""
+//                self.eachThirdEvent = filteredListInDateRoomList.last?.list[indexA + 2].event ?? ""
+////                print("eachEvent: ", eachEvent ?? "")
+//
+//            }
+//
+//            let returnedString = "\(filteredEventString)\n\(self.eachSecondEvent)\n\(self.eachThirdEvent)"
+//            print("returnedString: ", returnedString)
+//            return returnedString
 
+
+            
+//            let filteredEventStringArray = Array(filteredEventString)
+            
+            if filteredEventString == nil {
+                let filteredEventStringInDateRoom = realm.objects(DateRoom.self).filter("dateRoomId contains '\(dateString)'").first?.event
+                return filteredEventStringInDateRoom
+            } else {
+                return filteredEventString
+            }
+        } catch {
+            return nil
+        }
     }
+    
+//    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+//        print("calendarCurrentPageDidChange")
+//    }
+    
+//    calendar
 }
