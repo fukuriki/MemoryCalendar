@@ -36,23 +36,38 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="haW-Da-MWG"/>
                                 </connections>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kAV-JS-Zoh">
+                                <rect key="frame" x="0.0" y="44" width="70" height="70"/>
+                                <color key="backgroundColor" red="0.60392156860000001" green="0.87843137250000003" blue="0.3803921569" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="cnr-db-zeA"/>
+                                    <constraint firstAttribute="height" constant="70" id="sjH-aa-Q1b"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="goforward" catalog="system">
+                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="0QD-lK-gaa" secondAttribute="bottom" id="E0J-lC-bZy"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="0QD-lK-gaa" secondAttribute="trailing" id="FTU-r9-x7H"/>
+                            <constraint firstItem="kAV-JS-Zoh" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="N0u-63-Mp5"/>
+                            <constraint firstItem="kAV-JS-Zoh" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="PrS-pK-O0K"/>
                             <constraint firstItem="0QD-lK-gaa" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Sg5-gw-7Dc"/>
                             <constraint firstItem="0QD-lK-gaa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="V8e-YY-pbP"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="Calendar" destination="0QD-lK-gaa" id="2HJ-b7-yEx"/>
+                        <outlet property="cellReloadButton" destination="kAV-JS-Zoh" id="wiD-k4-gOe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="20" y="84"/>
+            <point key="canvasLocation" x="18.840579710144929" y="83.705357142857139"/>
         </scene>
         <!--Set Memory View Controller-->
         <scene sceneID="HwQ-6s-IbF">
@@ -147,6 +162,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="goforward" catalog="system" width="121" height="128"/>
         <image name="plus.square.on.square" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

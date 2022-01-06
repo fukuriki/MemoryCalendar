@@ -15,228 +15,461 @@ class ViewController: UIViewController
 //, UIViewRepresentable
 {
     
-    var eventList: Results<Event>!
+//    var eventList: Results<Event>!
     var reviewDay1Key: String?
     var reviewDay3Key: String?
     var reviewDay7Key: String?
     var reviewDay30Key: String?
-//    var date = Date()
-    var eventString = ""
-    var eachSecondEvent: String? = ""
-    var eachThirdEvent: String? = ""
+    var isFirst = Bool()
 
     @IBOutlet weak var Calendar: FSCalendar!
-    
+    @IBOutlet weak var cellReloadButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        print("(^q^)")
+        
         Calendar.delegate = self
         Calendar.dataSource = self
+
+        cellReloadButton.layer.cornerRadius = 10
+        cellReloadButton.addTarget(self, action: #selector(tappedCellReloadButton), for: .touchUpInside)
         
-        do {
-            let realm = try Realm()
-            eventList = realm.objects(Event.self)
+//        do {
+//            let realm = try Realm()
+//            eventList = realm.objects(Event.self)
             
     //        print(Realm.Configuration.defaultConfiguration.fileURL!)
-    //        try! realm.write({
-    //            realm.deleteAll()
-    //        })
-        } catch {
-            
-        }
+//            try! realm.write({
+//                realm.deleteAll()
+//            })
+//        } catch {
+//        }
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+//        Calendar.delegate = self
+//        Calendar.dataSource = self
+//
+//        cellReloadButton.layer.cornerRadius = 10
+//        cellReloadButton.addTarget(self, action: #selector(tappedCellReloadButton), for: .touchUpInside)
+        
 //        print("viewWillAppear")
-        self.Calendar.reloadData()
+//        self.viewDidLoad()
 //        updateUIView(<#T##uiView: UIViewRepresentable.UIViewType##UIViewRepresentable.UIViewType#>, context: <#T##UIViewRepresentableContext<UIViewRepresentable>#>)
     }
     
-    
-    
-    func makeStackViewOfOneElement(cell: FSCalendarCell, cellDate: Date) {
+    @objc private func tappedCellReloadButton() {
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "y-MM-dd"
-        let dateString = dateFormatter.string(from: cellDate)
-        let realm = try! Realm()
+        print("tappedCellReloadButton")
         
-        let dateRoom = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
-        print("dateRoom: ", dateRoom)
+        self.Calendar.removeFromSuperview()
         
-        let filteredDateRoomList = realm.objects(DateRoomList.self).filter("dateRoomId == '\(dateString)'")
-//        print("filteredDateRoomList: ", filteredDateRoomList)
+        self.loadView()
+        self.viewDidLoad()
+//        self.viewWillAppear(true)
+        self.Calendar.reloadData()
+
+//        print("count: ", view.subviews.count)
         
-        let eventLabel = UILabel()
-     //                let eventLabel = EventLabel(frame: .zero, eventText: eventText) // リファクタリング用
-                 eventLabel.font = UIFont.systemFont(ofSize: 12)
+//        for subview in view.subviews {
+////            if let subview = subview as? UIStackView, subview.tag == 1 {
+//            print("subview: ", subview)
+////                subview.removeFromSuperview()
+////            }
+//        }
+        
+//        for subview in cell.subviews {
+//            if let subview = subview as? UIStackView, subview.tag == 1 {
+//            print("subview: ", subview)
+//                subview.removeFromSuperview()
+//            }
+//        }
+        
+//        for subview in view.subviews {
+//            print("subview: ", subview)
+//        }
+        
+//        updateUIView(Calendar)
+        
+//        -----------
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "y-MM-dd"
+//        let dateString = dateFormatter.string(from: date)
+//
+//        let realm = try! Realm()
+//        let filteredDateRoomList = realm.objects(DateRoomList.self).filter("dateRoomId == '\(dateString)'")
+//        let eventCountInDateRoomList = filteredDateRoomList.last?.list.count
+//        let filteredDateRoom = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
+//        let eventCountInDateRoom = filteredDateRoom.count
+//        //        print("eventCountInDateRoom: ", eventCountInDateRoom)
+//
+//        switch eventCountInDateRoomList {
+//        case nil: break
+//        case 1:
+//            makeStackViewOfOneElement(cell: cell, cellDate: date)
+//        case 2:
+//            makeStackViewOfTwoElement(cell: cell, cellDate: date)
+//        default:
+//            makeStackViewOfThreeElement(cell: cell, cellDate: date)
+//        }
+//
+//        if eventCountInDateRoomList == nil {
+//
+//            switch eventCountInDateRoom {
+//            case 0: break
+//            case 1:
+//                makeStackViewOfOneElementByDateRoom(cell: cell, cellDate: date)
+//            case 2:
+//                makeStackViewOfTwoElementByDateRoom(cell: cell, cellDate: date)
+//            default:
+//                makeStackViewOfThreeElementByDateRoom(cell: cell, cellDate: date)
+//            }
+//        }
+        
+//        willDisplayCopy(cell: <#T##FSCalendarCell#>, date: <#T##Date#>)
+        
+//        print("view.subviews: ", view.subviews)
 
-                 if let firstEventString = filteredDateRoomList.first?.list.first?.event {
-                     print("firstEventString")
-                 eventLabel.text = firstEventString
-                 }
-                 eventLabel.textColor = UIColor.systemMint
-                 eventLabel.layer.cornerRadius = cell.bounds.width/2
-
-                 let eventLabel2 = UILabel()
-     //            let eventLabel2 = EventLabel(frame: .zero, eventText: eventText)
-                 eventLabel2.font = UIFont.systemFont(ofSize: 12)
-//        if self.eachSecondEvent == filteredDateRoomList.last?.list[1].event {
-//            eventLabel2.text = self.eachSecondEvent
-//                 }
-                 eventLabel2.textColor = UIColor.systemMint
-                 eventLabel2.layer.cornerRadius = cell.bounds.width/2
-
-                 let eventLabel3 = UILabel()
-     //            let eventLabel3 = EventLabel(frame: .zero, eventText: eventText)
-                 eventLabel3.font = UIFont.systemFont(ofSize: 12)
-//        if self.eachThirdEvent == filteredDateRoomList.last?.list[2].event {
-//            eventLabel3.text = self.eachThirdEvent
-//                 }
-                 eventLabel3.textColor = UIColor.systemMint
-                 eventLabel3.layer.cornerRadius = cell.bounds.width/2
-
-                 let stackView = UIStackView(arrangedSubviews: [eventLabel, eventLabel2, eventLabel3])
-                 stackView.axis = .vertical
-                 stackView.distribution = .fillEqually
-                 stackView.translatesAutoresizingMaskIntoConstraints = false
-
-                 cell.addSubview(stackView)
-
-                 stackView.alignment = .center
-                 stackView.snp.makeConstraints { make in
-
-                     make.width.equalTo(75)
-                     make.height.equalTo(45)
-                     make.centerX.equalTo(cell.snp_centerXWithinMargins)
-                     make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(35)
-                 }
+//        self.Calendar.delete(self.Calendar.superview)
+        
+//        self.viewWillAppear(true)
+//        self.viewDidLoad()
+//        self.Calendar.delete()
+//        self.Calendar.reloadData()
+        
     }
     
-    func makeStackViewOfTwoElement(cell: FSCalendarCell, cellDate: Date) {
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "y-MM-dd"
-        let dateString = dateFormatter.string(from: cellDate)
-        let realm = try! Realm()
-        
-        let dateRoom = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
-        print("dateRoom: ", dateRoom)
-        
-        let filteredDateRoomList = realm.objects(DateRoomList.self).filter("dateRoomId == '\(dateString)'")
-//        print("filteredDateRoomList: ", filteredDateRoomList)
-        
-        let eventLabel = UILabel()
-     //                let eventLabel = EventLabel(frame: .zero, eventText: eventText) // リファクタリング用
-                 eventLabel.font = UIFont.systemFont(ofSize: 12)
-
-                 if let firstEventString = filteredDateRoomList.first?.list.first?.event {
-                     print("firstEventString")
-                 eventLabel.text = firstEventString
-                 }
-                 eventLabel.textColor = UIColor.systemMint
-                 eventLabel.layer.cornerRadius = cell.bounds.width/2
-
-                 let eventLabel2 = UILabel()
-     //            let eventLabel2 = EventLabel(frame: .zero, eventText: eventText)
-                 eventLabel2.font = UIFont.systemFont(ofSize: 12)
-        if let secondEventString = filteredDateRoomList.last?.list[1].event {
-            eventLabel2.text = secondEventString
-                 }
-//        if self.eachSecondEvent == filteredDateRoomList.last?.list[1].event {
-//            eventLabel2.text = self.eachSecondEvent
-//                 }
-                 eventLabel2.textColor = UIColor.systemMint
-                 eventLabel2.layer.cornerRadius = cell.bounds.width/2
-
-                 let eventLabel3 = UILabel()
-     //            let eventLabel3 = EventLabel(frame: .zero, eventText: eventText)
-                 eventLabel3.font = UIFont.systemFont(ofSize: 12)
-                 eventLabel3.textColor = UIColor.systemMint
-                 eventLabel3.layer.cornerRadius = cell.bounds.width/2
-
-                 let stackView = UIStackView(arrangedSubviews: [eventLabel, eventLabel2, eventLabel3])
-                 stackView.axis = .vertical
-                 stackView.distribution = .fillEqually
-                 stackView.translatesAutoresizingMaskIntoConstraints = false
-
-                 cell.addSubview(stackView)
-
-                 stackView.alignment = .center
-                 stackView.snp.makeConstraints { make in
-
-                     make.width.equalTo(75)
-                     make.height.equalTo(45)
-                     make.centerX.equalTo(cell.snp_centerXWithinMargins)
-                     make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(35)
-                 }
+//    func willDisplayCopy(completion: () -> Void) {
+//
+//    }
+    
+//    func willDisplayCopy(cell: FSCalendarCell, date: Date) {
+//
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "y-MM-dd"
+//        let dateString = dateFormatter.string(from: date)
+//
+//        let realm = try! Realm()
+//        let filteredDateRoomList = realm.objects(DateRoomList.self).filter("dateRoomId == '\(dateString)'")
+//        let eventCountInDateRoomList = filteredDateRoomList.last?.list.count
+//        let filteredDateRoom = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
+//        let eventCountInDateRoom = filteredDateRoom.count
+////        print("eventCountInDateRoom: ", eventCountInDateRoom)
+//
+//        switch eventCountInDateRoomList {
+//        case nil: break
+//        case 1:
+//            makeStackViewOfOneElement(cell: cell, cellDate: date)
+//        case 2:
+//            makeStackViewOfTwoElement(cell: cell, cellDate: date)
+//        default:
+//            makeStackViewOfThreeElement(cell: cell, cellDate: date)
+//        }
+//
+//        if eventCountInDateRoomList == nil {
+//
+//            switch eventCountInDateRoom {
+//            case 0: break
+//            case 1:
+//                makeStackViewOfOneElementByDateRoom(cell: cell, cellDate: date)
+//            case 2:
+//                makeStackViewOfTwoElementByDateRoom(cell: cell, cellDate: date)
+//            default:
+//                makeStackViewOfThreeElementByDateRoom(cell: cell, cellDate: date)
+//            }
+//        }
+//    }
+    
+    private func deleteStackView(cell: FSCalendarCell) {
+        for subview in cell.subviews {
+            if let stackView = subview as? UIStackView {
+//                print("stackView: ", stackView)
+                stackView.removeFromSuperview()
+            }
+        }
     }
     
-    func makeStackViewOfThreeElement(cell: FSCalendarCell, cellDate: Date) {
+   private func makeStackViewOfOneElementByDateRoomList(cell: FSCalendarCell, cellDate: Date) {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "y-MM-dd"
         let dateString = dateFormatter.string(from: cellDate)
         let realm = try! Realm()
-        
-        let dateRoom = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
-        print("dateRoom: ", dateRoom)
-        
+        //        let dateRoom = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
         let filteredDateRoomList = realm.objects(DateRoomList.self).filter("dateRoomId == '\(dateString)'")
-//        print("filteredDateRoomList: ", filteredDateRoomList)
         
         let eventLabel = UILabel()
-     //                let eventLabel = EventLabel(frame: .zero, eventText: eventText) // リファクタリング用
-                 eventLabel.font = UIFont.systemFont(ofSize: 12)
-
-                 if let firstEventString = filteredDateRoomList.first?.list.first?.event {
-                     print("firstEventString")
-                 eventLabel.text = firstEventString
-                 }
-                 eventLabel.textColor = UIColor.systemMint
-                 eventLabel.layer.cornerRadius = cell.bounds.width/2
-
-                 let eventLabel2 = UILabel()
-     //            let eventLabel2 = EventLabel(frame: .zero, eventText: eventText)
-                 eventLabel2.font = UIFont.systemFont(ofSize: 12)
+        //                let eventLabel = EventLabel(frame: .zero, eventText: eventText) // リファクタリング用
+        if let firstEventString = filteredDateRoomList.first?.list.first?.event {
+            eventLabel.text = firstEventString
+        }
+        eventLabel.font = UIFont.systemFont(ofSize: 12)
+        eventLabel.textColor = UIColor.systemMint
+        eventLabel.layer.cornerRadius = cell.bounds.width/2
+        
+        let eventLabel2 = UILabel()
+        let eventLabel3 = UILabel()
+        
+        let stackView = UIStackView(arrangedSubviews: [eventLabel, eventLabel2, eventLabel3])
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+//        self.view.addSubview(stackView)
+//        self.view.bringSubviewToFront(stackView)
+        cell.addSubview(stackView)
+//        cell.viewWithTag(1)
+        
+        stackView.alignment = .center
+        stackView.snp.makeConstraints { make in
+            
+            make.width.equalTo(50)
+            make.height.equalTo(45)
+            make.centerX.equalTo(cell.snp_centerXWithinMargins)
+            make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(35)
+        }
+    }
+    
+    private func makeStackViewOfTwoElementByDateRoomList(cell: FSCalendarCell, cellDate: Date) {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "y-MM-dd"
+        let dateString = dateFormatter.string(from: cellDate)
+        let realm = try! Realm()
+        //        let dateRoom = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
+        let filteredDateRoomList = realm.objects(DateRoomList.self).filter("dateRoomId == '\(dateString)'")
+        
+        let eventLabel = UILabel()
+        if let firstEventString = filteredDateRoomList.first?.list.first?.event {
+            eventLabel.text = firstEventString
+        }
+        eventLabel.font = UIFont.systemFont(ofSize: 12)
+        eventLabel.textColor = UIColor.systemMint
+        eventLabel.layer.cornerRadius = cell.bounds.width/2
+        
+        let eventLabel2 = UILabel()
         if let secondEventString = filteredDateRoomList.last?.list[1].event {
             eventLabel2.text = secondEventString
-                 }
-                 eventLabel2.textColor = UIColor.systemMint
-                 eventLabel2.layer.cornerRadius = cell.bounds.width/2
-
-                 let eventLabel3 = UILabel()
-     //            let eventLabel3 = EventLabel(frame: .zero, eventText: eventText)
-                 eventLabel3.font = UIFont.systemFont(ofSize: 12)
+        }
+        eventLabel2.font = UIFont.systemFont(ofSize: 12)
+        eventLabel2.textColor = UIColor.systemMint
+        eventLabel2.layer.cornerRadius = cell.bounds.width/2
+        
+        let eventLabel3 = UILabel()
+        
+        let stackView = UIStackView(arrangedSubviews: [eventLabel, eventLabel2, eventLabel3])
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+//        self.view.addSubview(stackView)
+//        self.view.bringSubviewToFront(stackView)
+        cell.addSubview(stackView)
+        
+        stackView.alignment = .center
+        stackView.snp.makeConstraints { make in
+            
+            make.width.equalTo(50)
+            make.height.equalTo(45)
+            make.centerX.equalTo(cell.snp_centerXWithinMargins)
+            make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(35)
+        }
+    }
+    
+    private func makeStackViewOfThreeElementByDateRoomList(cell: FSCalendarCell, cellDate: Date) {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "y-MM-dd"
+        let dateString = dateFormatter.string(from: cellDate)
+        let realm = try! Realm()
+        //        let dateRoom = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
+        let filteredDateRoomList = realm.objects(DateRoomList.self).filter("dateRoomId == '\(dateString)'")
+        
+        let eventLabel = UILabel()
+        if let firstEventString = filteredDateRoomList.first?.list.first?.event {
+            eventLabel.text = firstEventString
+        }
+        eventLabel.font = UIFont.systemFont(ofSize: 12)
+        eventLabel.textColor = UIColor.systemMint
+        eventLabel.layer.cornerRadius = cell.bounds.width/2
+        
+        let eventLabel2 = UILabel()
+        if let secondEventString = filteredDateRoomList.last?.list[1].event {
+            eventLabel2.text = secondEventString
+        }
+        eventLabel2.font = UIFont.systemFont(ofSize: 12)
+        eventLabel2.textColor = UIColor.systemMint
+        eventLabel2.layer.cornerRadius = cell.bounds.width/2
+        
+        let eventLabel3 = UILabel()
         if let thirdEventString = filteredDateRoomList.last?.list[2].event {
             eventLabel3.text = thirdEventString
-                 }
-                 eventLabel3.textColor = UIColor.systemMint
-                 eventLabel3.layer.cornerRadius = cell.bounds.width/2
-
-                 let stackView = UIStackView(arrangedSubviews: [eventLabel, eventLabel2, eventLabel3])
-                 stackView.axis = .vertical
-                 stackView.distribution = .fillEqually
-                 stackView.translatesAutoresizingMaskIntoConstraints = false
-
-                 cell.addSubview(stackView)
-
-                 stackView.alignment = .center
-                 stackView.snp.makeConstraints { make in
-
-                     make.width.equalTo(75)
-                     make.height.equalTo(45)
-                     make.centerX.equalTo(cell.snp_centerXWithinMargins)
-                     make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(35)
-                 }
+        }
+        eventLabel3.font = UIFont.systemFont(ofSize: 12)
+        eventLabel3.textColor = UIColor.systemMint
+        eventLabel3.layer.cornerRadius = cell.bounds.width/2
+        
+        let stackView = UIStackView(arrangedSubviews: [eventLabel, eventLabel2, eventLabel3])
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+//        self.view.addSubview(stackView)
+//        self.view.bringSubviewToFront(stackView)
+        cell.addSubview(stackView)
+        
+        stackView.alignment = .center
+        stackView.snp.makeConstraints { make in
+            
+            make.width.equalTo(50)
+            make.height.equalTo(45)
+            make.centerX.equalTo(cell.snp_centerXWithinMargins)
+            make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(35)
+        }
     }
     
-//    func updateUIView(_ uiView: FSCalendar, context: Context) {
-//
+    private func makeStackViewOfOneElementByDateRoom(cell: FSCalendarCell, cellDate: Date) {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "y-MM-dd"
+        let dateString = dateFormatter.string(from: cellDate)
+        let realm = try! Realm()
+        //        let dateRoom = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
+        let filteredDateRoom = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
+        
+        let eventLabel = UILabel()
+        //                let eventLabel = EventLabel(frame: .zero, eventText: eventText) // リファクタリング用
+        if let firstEventString = filteredDateRoom.first?.event {
+            eventLabel.text = firstEventString
+        }
+        eventLabel.font = UIFont.systemFont(ofSize: 12)
+        eventLabel.textColor = UIColor.systemMint
+        eventLabel.layer.cornerRadius = cell.bounds.width/2
+        
+        let eventLabel2 = UILabel()
+        let eventLabel3 = UILabel()
+        
+        let stackView = UIStackView(arrangedSubviews: [eventLabel, eventLabel2, eventLabel3])
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+//        self.view.addSubview(stackView)
+//        self.view.bringSubviewToFront(stackView)
+        cell.addSubview(stackView)
+        
+        stackView.alignment = .center
+        stackView.snp.makeConstraints { make in
+            
+            make.width.equalTo(50)
+            make.height.equalTo(45)
+            make.centerX.equalTo(cell.snp_centerXWithinMargins)
+            make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(35)
+        }
+    }
+    
+    private func makeStackViewOfTwoElementByDateRoom(cell: FSCalendarCell, cellDate: Date) {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "y-MM-dd"
+        let dateString = dateFormatter.string(from: cellDate)
+        let realm = try! Realm()
+//                let dateRoom = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
+        let filteredDateRoom = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
+//        print("filteredDateRoom: ", filteredDateRoom)
+        
+        let eventLabel = UILabel()
+        if let firstEventString = filteredDateRoom.first?.event {
+            eventLabel.text = firstEventString
+        }
+        eventLabel.font = UIFont.systemFont(ofSize: 12)
+        eventLabel.textColor = UIColor.systemMint
+        eventLabel.layer.cornerRadius = cell.bounds.width/2
+        
+        let eventLabel2 = UILabel()
+        eventLabel2.text = filteredDateRoom[1].event
+        eventLabel2.font = UIFont.systemFont(ofSize: 12)
+        eventLabel2.textColor = UIColor.systemMint
+        eventLabel2.layer.cornerRadius = cell.bounds.width/2
+        
+        let eventLabel3 = UILabel()
+        
+        let stackView = UIStackView(arrangedSubviews: [eventLabel, eventLabel2, eventLabel3])
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+//        self.view.addSubview(stackView)
+//        self.view.bringSubviewToFront(stackView)
+        cell.addSubview(stackView)
+        
+        stackView.alignment = .center
+        stackView.snp.makeConstraints { make in
+            
+            make.width.equalTo(50)
+            make.height.equalTo(45)
+            make.centerX.equalTo(cell.snp_centerXWithinMargins)
+            make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(35)
+        }
+    }
+    
+    private func makeStackViewOfThreeElementByDateRoom(cell: FSCalendarCell, cellDate: Date) {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "y-MM-dd"
+        let dateString = dateFormatter.string(from: cellDate)
+        let realm = try! Realm()
+        //        let dateRoom = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
+        let filteredDateRoom = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
+//        print("filteredDateRoom: ", filteredDateRoom)
+        
+        let eventLabel = UILabel()
+        if let firstEventString = filteredDateRoom.first?.event {
+            eventLabel.text = firstEventString
+        }
+        eventLabel.font = UIFont.systemFont(ofSize: 12)
+        eventLabel.textColor = UIColor.systemMint
+        eventLabel.layer.cornerRadius = cell.bounds.width/2
+        
+        let eventLabel2 = UILabel()
+        eventLabel2.text = filteredDateRoom[1].event
+        eventLabel2.font = UIFont.systemFont(ofSize: 12)
+        eventLabel2.textColor = UIColor.systemMint
+        eventLabel2.layer.cornerRadius = cell.bounds.width/2
+        
+        let eventLabel3 = UILabel()
+        eventLabel3.text = filteredDateRoom[2].event
+        eventLabel3.font = UIFont.systemFont(ofSize: 12)
+        eventLabel3.textColor = UIColor.systemMint
+        eventLabel3.layer.cornerRadius = cell.bounds.width/2
+        
+        let stackView = UIStackView(arrangedSubviews: [eventLabel, eventLabel2, eventLabel3])
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+//        self.view.addSubview(stackView)
+//        self.view.bringSubviewToFront(stackView)
+        cell.addSubview(stackView)
+        
+        stackView.alignment = .center
+        stackView.snp.makeConstraints { make in
+            
+            make.width.equalTo(50)
+            make.height.equalTo(45)
+            make.centerX.equalTo(cell.snp_centerXWithinMargins)
+            make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(35)
+        }
+    }
+    
+//    func updateUIView(_ uiView: FSCalendar) {
+////        if (canReload == false) { return }
+//        uiView.reloadData()
 //    }
     
 }
@@ -267,170 +500,64 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
     }
     
     func calendar(_ calendar: FSCalendar, willDisplay cell: FSCalendarCell, for date: Date, at monthPosition: FSCalendarMonthPosition) {
+        
+//        print("willDisplay1")
 
-             let dateFormatter = DateFormatter()
-             dateFormatter.dateFormat = "y-MM-dd"
-             let dateString = dateFormatter.string(from: date)
-     //        print("dateString: ", dateString)
-             
-             let realm = try! Realm()
-        
-//        let filteredDateRoom = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
-//
-//        for index in filteredDateRoom.indices {
-//
-////            let eventIndex = index.successor()
-//
-//            let eventLabel = UILabel()
-////                let eventLabel = EventLabel(frame: .zero, eventText: eventText) // リファクタリング
-//            eventLabel.font = UIFont.systemFont(ofSize: 12)
-//
-//            if let firstEventString = filteredDateRoom.first?.event {
-//                print("firstEventString")
-//            eventLabel.text = firstEventString
-//            }
-//            eventLabel.textColor = UIColor.systemMint
-//            eventLabel.layer.cornerRadius = cell.bounds.width/2
-//
-//            let eventLabel2 = UILabel()
-////            let eventLabel2 = EventLabel(frame: .zero, eventText: eventText)
-//            eventLabel2.font = UIFont.systemFont(ofSize: 12)
-//
-////            eventLabel2.text = filteredDateRoom[]
-////            eventLabel2.text = filteredDateRoom[index + 1].event
-//            if self.eachSecondEvent == filteredDateRoom[index].event {
-//                eventLabel2.text = self.eachSecondEvent
-//            }
-////            if let secondEventString = filteredDateRoom[index + 1].event {
-////                eventLabel2.text = secondEventString
-////            }
-//
-//            eventLabel2.textColor = UIColor.systemMint
-//            eventLabel2.layer.cornerRadius = cell.bounds.width/2
-//
-//            let eventLabel3 = UILabel()
-////            let eventLabel3 = EventLabel(frame: .zero, eventText: eventText)
-//            eventLabel3.font = UIFont.systemFont(ofSize: 12)
-//
-////            eventLabel3.text = filteredDateRoom[index + 2].event
-//            if self.eachThirdEvent == filteredDateRoom[index].event {
-//                eventLabel3.text = self.eachThirdEvent
-//            }
-////            if let thirdEventString = filteredDateRoom[index + 2].event {
-////                eventLabel3.text = thirdEventString
-////            }
-//
-//            eventLabel3.textColor = UIColor.systemMint
-//            eventLabel3.layer.cornerRadius = cell.bounds.width/2
-//
-//            let stackView = UIStackView(arrangedSubviews: [eventLabel, eventLabel2, eventLabel3])
-//            stackView.axis = .vertical
-//            stackView.distribution = .fillEqually
-//            stackView.translatesAutoresizingMaskIntoConstraints = false
-//
-//            cell.addSubview(stackView)
-//
-//            stackView.alignment = .center
-//            stackView.snp.makeConstraints { make in
-//
-//                make.width.equalTo(75)
-//                make.height.equalTo(45)
-//                make.centerX.equalTo(cell.snp_centerXWithinMargins)
-//                make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(35)
-//            }
-//        }
-        
-//        -------------------dateRoomList
-             let filteredDateRoomList = realm.objects(DateRoomList.self).filter("dateRoomId == '\(dateString)'")
-//             print("filteredDateRoomList: ", filteredDateRoomList)
-        let eventCount = filteredDateRoomList.last?.list.count
-        print("eventCount: ", eventCount ?? 0)
-        
-        switch eventCount {
+//        if isFirst == true { return }
+//        print("willDisplay2")
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "y-MM-dd"
+        let dateString = dateFormatter.string(from: date)
+//        print("dateString: ", dateString)
+
+        let realm = try! Realm()
+        let filteredDateRoomList = realm.objects(DateRoomList.self).filter("dateRoomId == '\(dateString)'")
+//        print("filteredDateRoomList: ", filteredDateRoomList)
+        let eventCountInDateRoomList = filteredDateRoomList.last?.list.count
+//        print("eventCountInDateRoomList: ", eventCountInDateRoomList)
+        let filteredDateRoom = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
+//        print("filteredDateRoom: ", filteredDateRoom)
+        let eventCountInDateRoom = filteredDateRoom.count
+//        print("eventCountInDateRoom: ", eventCountInDateRoom)
+
+        switch eventCountInDateRoomList {
         case nil:
-            print("0")
+            deleteStackView(cell: cell)
         case 1:
-            print("1")
-            makeStackViewOfOneElement(cell: cell, cellDate: date)
+            deleteStackView(cell: cell)
+            makeStackViewOfOneElementByDateRoomList(cell: cell, cellDate: date)
         case 2:
-            print("2")
-            makeStackViewOfTwoElement(cell: cell, cellDate: date)
+            deleteStackView(cell: cell)
+            makeStackViewOfTwoElementByDateRoomList(cell: cell, cellDate: date)
         default:
-            print("３以上")
-            makeStackViewOfThreeElement(cell: cell, cellDate: date)
+            deleteStackView(cell: cell)
+            makeStackViewOfThreeElementByDateRoomList(cell: cell, cellDate: date)
         }
 
-//             for index in filteredDateRoomList.indices {
+        if eventCountInDateRoomList == nil {
 
-//                 cell.delete(monthPosition)
-//                 cell.removeFromSuperview()
-//                 cell.calendar
+            switch eventCountInDateRoom {
+            case 0:
+                deleteStackView(cell: cell)
+            case 1:
+                deleteStackView(cell: cell)
+                makeStackViewOfOneElementByDateRoom(cell: cell, cellDate: date)
+            case 2:
+                deleteStackView(cell: cell)
+                makeStackViewOfTwoElementByDateRoom(cell: cell, cellDate: date)
+            default:
+                deleteStackView(cell: cell)
+                makeStackViewOfThreeElementByDateRoom(cell: cell, cellDate: date)
+            }
+        }
+        
+//        cellReloadButton.addTarget(self, action: #selector(tappedCellReloadButton(cell: cell, date: date)), for: .touchUpInside)
 
-
-//                 let firstEventString = filteredDateRoomList.first?.list.first?.event
-//        let secondEventString = filteredDateRoomList.last?.list[1].event
-//                 let thirdEventString = filteredDateRoomList.last?.list[2]
-//        print("secondEventString: ", secondEventString ?? [])
-//        print("thirdEventString: ", thirdEventString ?? [])
-
-//        -----------method化
-//                 let eventLabel = UILabel()
-//     //                let eventLabel = EventLabel(frame: .zero, eventText: eventText) // リファクタリング
-//                 eventLabel.font = UIFont.systemFont(ofSize: 12)
-//
-//                 if let firstEventString = filteredDateRoomList.first?.list.first?.event {
-//                     print("firstEventString")
-//                 eventLabel.text = firstEventString
-//                 }
-//                 eventLabel.textColor = UIColor.systemMint
-//                 eventLabel.layer.cornerRadius = cell.bounds.width/2
-//
-//                 let eventLabel2 = UILabel()
-//     //            let eventLabel2 = EventLabel(frame: .zero, eventText: eventText)
-//                 eventLabel2.font = UIFont.systemFont(ofSize: 12)
-////        if self.eachSecondEvent == filteredDateRoomList.last?.list[1].event {
-////            eventLabel2.text = self.eachSecondEvent
-////                 }
-//                 eventLabel2.textColor = UIColor.systemMint
-//                 eventLabel2.layer.cornerRadius = cell.bounds.width/2
-//
-//                 let eventLabel3 = UILabel()
-//     //            let eventLabel3 = EventLabel(frame: .zero, eventText: eventText)
-//                 eventLabel3.font = UIFont.systemFont(ofSize: 12)
-////        if self.eachThirdEvent == filteredDateRoomList.last?.list[2].event {
-////            eventLabel3.text = self.eachThirdEvent
-////                 }
-//                 eventLabel3.textColor = UIColor.systemMint
-//                 eventLabel3.layer.cornerRadius = cell.bounds.width/2
-//
-//                 let stackView = UIStackView(arrangedSubviews: [eventLabel, eventLabel2, eventLabel3])
-//                 stackView.axis = .vertical
-//                 stackView.distribution = .fillEqually
-//                 stackView.translatesAutoresizingMaskIntoConstraints = false
-//
-//                 cell.addSubview(stackView)
-//
-//                 stackView.alignment = .center
-//                 stackView.snp.makeConstraints { make in
-//
-//                     make.width.equalTo(75)
-//                     make.height.equalTo(45)
-//                     make.centerX.equalTo(cell.snp_centerXWithinMargins)
-//                     make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(35)
-//                 }
-//        -----------method化
-
-//                 if firstEventString == nil {
-//                     print("firstEventStringがニル")
-//                     let filteredEventStringInDateRoom = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'").first?.event
-//                     eventLabel.text = filteredEventStringInDateRoom
-//                 }
-
-//                 cell.calendar.reloadData()
-//             } // indices
-//        ---------------dateRoomList
+//        cellReloadButton.behavioralStyle = .automatic
         
         
+//        if cellReloadButton.
     }
     
 //    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
@@ -441,68 +568,27 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
 //
 //        for eventModel in Event
 //    }
-
-
-//    ----------------
-//    func calendar(_ calendar: FSCalendar, subtitleFor date: Date) -> String? {
-//
-////        print("subtitleFor")
-//        do {
-//
-//            let realm = try Realm()
-//            let dateFormatter = DateFormatter()
-//            dateFormatter.dateFormat = "y-MM-dd"
-//            let dateString = dateFormatter.string(from: date)
-//            let filteredEventString = realm.objects(DateRoomList.self).filter("dateRoomId contains '\(dateString)'").first?.list.first?.event
-//
-////            dateRoomListの２番目と３番目のevent取得しようとしてるやつ
-//            let filteredListInDateRoomList = realm.objects(DateRoomList.self).filter("dateRoomId contains '\(dateString)'")
-//            print("filteredListInDateRoomList: ", filteredListInDateRoomList)
-//
-////            for index in filteredListInDateRoomList.indices {
-//
-////            let event2 = filteredListInDateRoomList.last?.list[1].event
-////            let event3 = filteredListInDateRoomList.last?.list[2].event
-//            //            print("event2: ", event2 ?? "")
-//            //            print("event3: ", event3 ?? "")
-//
-////                self.eachSecondEvent = filteredListInDateRoomList.last?.list[1].event
-////                self.eachThirdEvent = filteredListInDateRoomList.last?.list[2].event
-////                self.eachSecondEvent = filteredListInDateRoomList.last?.list[index + 1].event ?? ""
-////                self.eachThirdEvent = filteredListInDateRoomList.last?.list[index + 2].event ?? ""
-//
-////            }
-////
-////            let returnedString = "\(filteredEventString)\n\(self.eachSecondEvent)\n\(self.eachThirdEvent)"
-////            print("returnedString: ", returnedString)
-////            return returnedString
-//
-//
-//
-////            let filteredEventStringArray = Array(filteredEventString)
-//
-//            if filteredEventString == nil  {
-//                let filteredEventStringInDateRoom = realm.objects(DateRoom.self).filter("dateRoomId contains '\(dateString)'").first?.event
-//                return filteredEventStringInDateRoom
-////            } else if event2 == nil {
-////                let filteredEventStringInDateRoom = realm.objects(DateRoom.self).filter("dateRoomId contains '\(dateString)'")[1].event
-////                return filteredEventStringInDateRoom
-////            } else if event3 == nil {
-////                let filteredEventStringInDateRoom = realm.objects(DateRoom.self).filter("dateRoomId contains '\(dateString)'")[2].event
-////                return filteredEventStringInDateRoom
-//            } else {
-//                return nil
-//            }
-//            } catch {
-//            return nil
-//        }
-//    }
-//    ---------------
     
-//    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-//        print("calendarCurrentPageDidChange")
-//    }
-    
-//    calendar
+    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+//        print("---------------------calendarCurrentPageDidChange")
+        
+//        let currentPage = self.Calendar.currentPage
+//        print("currentPage: ", currentPage)
+//
+//        print("calendar: ", calendar.subviews)
+        
+        
+//        self.Calendar.removeFromSuperview()
+//
+////        view.addSubview(Calendar)
+//
+////        self.loadViewIfNeeded()
+////        self.Calendar.
+//
+//        self.loadView()
+//        self.viewWillAppear(true)
+////        self.viewDidLoad()
+//
+//        self.Calendar.reloadData()
+    }
 }
-
