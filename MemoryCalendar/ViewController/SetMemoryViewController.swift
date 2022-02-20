@@ -16,9 +16,6 @@ class SetMemoryViewController: UIViewController {
     var date = Date()
     var editBarButtonItem: UIBarButtonItem!
     var eventListProperty: Results<Event>!
-    var dateRoomProperty: Results<DateRoom>!
-    var dateRoomListProperty: Results<DateRoomList>!
-    var tappedFilteredDateRoomResultProperty: Results<DateRoom>!
     var list: List<DateRoom>!
     var identifierByDateRoomList: Results<DateRoomList>!
     var isFirst = Bool()
@@ -30,7 +27,22 @@ class SetMemoryViewController: UIViewController {
         super.viewDidLoad()
                 
         setupUI()
+        fetchRealmInfo()
+    }
+    
+    private func setupUI() {
+        setMemoryTableView.delegate = self
+        setMemoryTableView.dataSource = self
+        setMemoryTableView.register(UINib(nibName: "TaskTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
+        setMemoryTableView.estimatedRowHeight = 50
+        setMemoryTableView.rowHeight = UITableView.automaticDimension
         
+        editBarButtonItem = UIBarButtonItem(title: "編集", style: .done, target: self, action: #selector(tappedEditBarButton))
+        self.navigationItem.rightBarButtonItem = editBarButtonItem
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableView), name: .notifyName, object: nil)
+    }
+    
+    private func fetchRealmInfo() {
         do {
             let realm = try Realm()
         let dateString = SettingDate.stringFromDate(date: date, format: "y-MM-dd")
@@ -40,18 +52,22 @@ class SetMemoryViewController: UIViewController {
         }
         
             self.identifierByDateRoomList = realm.objects(DateRoomList.self).filter("dateRoomId == '\(dateString)'")
-            
             eventListProperty = realm.objects(Event.self)
-            dateRoomProperty = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'") // 無いとdelegateメソッド内でnilなる
-            dateRoomListProperty = realm.objects(DateRoomList.self).filter("dateRoomId == '\(dateString)'")
         } catch {
             print(error)
         }
     }
     
+    @objc private func tappedEditBarButton() {
+        if setMemoryTableView.isEditing {
+            setMemoryTableView.isEditing = false
+        }
+        else {
+            setMemoryTableView.isEditing = true
+        }
+    }
     
     @objc private func reloadTableView() {
-        
         do {
             let realm = try Realm()
         let dateString = SettingDate.stringFromDate(date: date, format: "y-MM-dd")
@@ -63,28 +79,6 @@ class SetMemoryViewController: UIViewController {
             
         }
         setMemoryTableView.reloadData()
-
-    }
-    
-    
-    private func setupUI() {
-        setMemoryTableView.delegate = self
-        setMemoryTableView.dataSource = self
-        setMemoryTableView.register(UINib(nibName: "TaskTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
-        
-        editBarButtonItem = UIBarButtonItem(title: "編集", style: .done, target: self, action: #selector(tappedEditBarButton))
-        self.navigationItem.rightBarButtonItem = editBarButtonItem
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableView), name: .notifyName, object: nil)
-    }
-    
-    @objc private func tappedEditBarButton() {
-        if setMemoryTableView.isEditing {
-            setMemoryTableView.isEditing = false
-        }
-        else {
-//            編集モード中
-            setMemoryTableView.isEditing = true
-        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -103,7 +97,7 @@ extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "復習リスト"
+        return "復習リスト(優先順)"
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -235,11 +229,11 @@ extension SetMemoryViewController: UITableViewDelegate, UITableViewDataSource {
                     let selectedDateRoom = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'").filter("event == '\(event)'")
                     realm.delete(selectedDateRoom)
                     
-//                    self.list.remove(at: indexPath.row)
-                    
-//                    setMemoryTableView.delete(selfListArrayIndexPath)
-//                    realm.delete(selfListArrayIndexPath)
-                    
+                    let dateRoomListCount = realm.objects(DateRoomList.self).filter("dateRoomId == '\(dateString)'").first?.list.count
+                    let filteredDateRoomList = realm.objects(DateRoomList.self).filter("dateRoomId == '\(dateString)'")
+                    if dateRoomListCount == 0 {
+                        realm.delete(filteredDateRoomList)
+                    }
                 })
             setMemoryTableView.reloadData()
             } catch {
@@ -295,9 +289,7 @@ class ContainerViewController: UIViewController {
     private func popUpInterface() {
         
         var alertTextField: UITextField?
-//        alertTextField?.delegate = self
-//        alertTextField.dataSource = self
-        
+
         let alert = UIAlertController(
                     title: "復習すべきこと",
                     message: "Enter your task",
@@ -306,18 +298,6 @@ class ContainerViewController: UIViewController {
         alert.addTextField(
             configurationHandler: {(textField: UITextField!) in
                 alertTextField = textField
-                
-//                let textFieldNC = NotificationCenter.default
-//                textFieldNC.addObserver(self, selector: #selector(ContainerViewController.changeTextField(sender: , okAction: )), name: UITextField.textDidChangeNotification, object: nil)
-                
-//                guard let stringCount = alertTextField?.text?.count else { return }
-//
-//                if stringCount < 1 {
-////                    okAction.isEnabled = false
-//
-//                } else {
-////                    okAction.isEnabled = true
-//                }
                 
             })
                 
@@ -405,26 +385,6 @@ class ContainerViewController: UIViewController {
         alert.addAction(cancelAction)
         alert.addAction(okAction)
         self.present(alert, animated: true, completion: nil)
-        
-//                guard let stringCount = alertTextField?.text?.count else { return }
-//
-//        if stringCount < 1 {
-//            okAction.isEnabled = false
-//        } else {
-//            okAction.isEnabled = true
-//        }
-        
-        
-        
-//        guard let stringCount = alertTextField?.text?.count else { return }
-//        let stringCount = alertTextField?.text?.count
-//        guard let stringCount = alert.textFields?.count else { return }
-
-//        if stringCount < 1 {
-//            print("1より小さい")
-//            alert.delete(okAction)
-////                self.present(alert, animated: true, completion: nil)
-//        }
     }
     
     @objc func changeTextField(sender: NSNotification, okAction: UIAlertAction) {
@@ -439,46 +399,6 @@ class ContainerViewController: UIViewController {
     }
 }
 
-//extension ContainerViewController: UITextFieldDelegate {
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        print("変化中")
-////        print("1より小さい")
-//
-//        return true
-//    }
-    
-//    func textFieldDidChangeSelection(_ textField: UITextField) {
-//        print("はんかなう")
-//    }
-    
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//                print("はんかなう")
-//    }
-    
-//    func textFieldDidBeginEditing(_ textField: UITextField) {
-//        print("変化なう")
-//
-//    }
-    
-//    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-//        print("変化なう")
-//
-//        return true
-//    }
-    
-//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-//        print("変化なう")
-//
-//        return true
-//    }
-    
-//    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-//        print("変化なう")
-//
-//    }
-//}
-
 extension Notification.Name {
     static let notifyName = Notification.Name("notifyName")
-//    static let notifyname2 = Notification.Name("notifyName2")
 }

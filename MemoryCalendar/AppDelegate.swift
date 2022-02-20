@@ -6,15 +6,14 @@
 //
 
 import UIKit
-import RealmSwift
-import UserNotifications
+//import UserNotifications
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
-    var window: UIWindow?
-    let applicationKey = ""
-    let clientKey = ""
+//    var window: UIWindow?
+//    let applicationKey = ""
+//    let clientKey = ""
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -22,21 +21,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             
             if ((error != nil)) {
+                print("error: ", error ?? "")
                 return
             }
             
             guard granted else { return }
+            UNUserNotificationCenter.current().delegate = self
             
-            DispatchQueue.main.async {
-                UIApplication.shared.registerForRemoteNotifications()
-            }
+//            DispatchQueue.main.async {
+//                UIApplication.shared.registerForRemoteNotifications()
+//            }
         }
-        
         return true
-        }
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        UIApplication.shared.applicationIconBadgeNumber = 0
+    }
+    
+    func  userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        completionHandler([ .badge, .sound, .alert ])
+    }
 
     // MARK: UISceneSession Lifecycle
-
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
