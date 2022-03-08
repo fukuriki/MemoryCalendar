@@ -10,6 +10,7 @@
 		371A45E50F37D05BF74C0A6C /* Pods_MemoryCalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E25F03A74DA5A1C089F4EC0D /* Pods_MemoryCalendar.framework */; };
 		3C40F72D275F6B1D00A8E38C /* ToPassDataProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C40F72C275F6B1D00A8E38C /* ToPassDataProtocol.swift */; };
 		3C4989E5274FCB2B001DF23D /* DateRoomList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4989E4274FCB2B001DF23D /* DateRoomList.swift */; };
+		3C56330327C8A42900A601AA /* Date-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56330227C8A42900A601AA /* Date-Extension.swift */; };
 		3C89793827295A7C00207CE5 /* DateRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C89793727295A7C00207CE5 /* DateRoom.swift */; };
 		3C8F47FA26FC8A5500A1CD24 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8F47F926FC8A5500A1CD24 /* AppDelegate.swift */; };
 		3C8F47FC26FC8A5500A1CD24 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8F47FB26FC8A5500A1CD24 /* SceneDelegate.swift */; };
@@ -53,6 +54,7 @@
 		35CD1A3E4E2E75BE0CC3A253 /* Pods-MemoryCalendar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MemoryCalendar.release.xcconfig"; path = "Target Support Files/Pods-MemoryCalendar/Pods-MemoryCalendar.release.xcconfig"; sourceTree = "<group>"; };
 		3C40F72C275F6B1D00A8E38C /* ToPassDataProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToPassDataProtocol.swift; sourceTree = "<group>"; };
 		3C4989E4274FCB2B001DF23D /* DateRoomList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateRoomList.swift; sourceTree = "<group>"; };
+		3C56330227C8A42900A601AA /* Date-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date-Extension.swift"; sourceTree = "<group>"; };
 		3C89793727295A7C00207CE5 /* DateRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateRoom.swift; sourceTree = "<group>"; };
 		3C8F47F626FC8A5500A1CD24 /* MemoryCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MemoryCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C8F47F926FC8A5500A1CD24 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				3CAFA0772712C01100DD863A /* SettingDate.swift */,
 				3C4989E4274FCB2B001DF23D /* DateRoomList.swift */,
 				3C40F72C275F6B1D00A8E38C /* ToPassDataProtocol.swift */,
+				3C56330227C8A42900A601AA /* Date-Extension.swift */,
 			);
 			path = "Model&Extension";
 			sourceTree = "<group>";
@@ -459,6 +462,7 @@
 				3CAFA0782712C01100DD863A /* SettingDate.swift in Sources */,
 				3C8F47FE26FC8A5500A1CD24 /* ViewController.swift in Sources */,
 				3C8F4835270457AF00A1CD24 /* TaskTableViewCell.swift in Sources */,
+				3C56330327C8A42900A601AA /* Date-Extension.swift in Sources */,
 				3C89793827295A7C00207CE5 /* DateRoom.swift in Sources */,
 				3C40F72D275F6B1D00A8E38C /* ToPassDataProtocol.swift in Sources */,
 				3C8F47FA26FC8A5500A1CD24 /* AppDelegate.swift in Sources */,

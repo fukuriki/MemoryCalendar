@@ -11,10 +11,6 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
-//    var window: UIWindow?
-//    let applicationKey = ""
-//    let clientKey = ""
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         let center = UNUserNotificationCenter.current()

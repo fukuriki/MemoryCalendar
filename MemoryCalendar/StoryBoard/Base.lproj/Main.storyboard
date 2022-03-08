@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0QD-lK-gaa" customClass="FSCalendar">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0QD-lK-gaa" customClass="FSCalendar">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <userDefinedRuntimeAttributes>
@@ -27,9 +27,6 @@
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="headerTitleColor">
                                         <color key="value" systemColor="systemGreenColor"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="headerMinimumDissolvedAlpha">
-                                        <real key="value" value="0.0"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="weekdayTextColor">
                                         <color key="value" systemColor="systemGreenColor"/>
@@ -43,6 +40,12 @@
                                     <userDefinedRuntimeAttribute type="color" keyPath="selectionColor">
                                         <color key="value" red="0.70555002020000002" green="0.88539463279999997" blue="0.74252155279999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="headerMinimumDissolvedAlpha">
+                                        <real key="value" value="0.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="weekdayHeight">
+                                        <real key="value" value="11"/>
+                                    </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="YX1-It-i7v"/>
@@ -50,11 +53,11 @@
                                 </connections>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kAV-JS-Zoh">
-                                <rect key="frame" x="0.0" y="44" width="70" height="70"/>
+                                <rect key="frame" x="0.0" y="44" width="55" height="55"/>
                                 <color key="backgroundColor" red="0.60392156860000001" green="0.87843137250000003" blue="0.3803921569" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="70" id="cnr-db-zeA"/>
-                                    <constraint firstAttribute="height" constant="70" id="sjH-aa-Q1b"/>
+                                    <constraint firstAttribute="width" constant="55" id="cnr-db-zeA"/>
+                                    <constraint firstAttribute="height" constant="55" id="sjH-aa-Q1b"/>
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>

@@ -24,18 +24,41 @@ class ViewController: UIViewController {
         Calendar.dataSource = self
         cellReloadButton.layer.cornerRadius = 10
         cellReloadButton.addTarget(self, action: #selector(tappedCellReloadButton), for: .touchUpInside)
-        identifyTodayEventAndSetupNotification()
-                
+        
+        UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
+            for notification in notifications {
+                print("PendingNotification: ", notification)
+            }
+        }
+//        UNUserNotificationCenter.current().getDeliveredNotifications { notifications in
+//            for notification in notifications {
+//                print("DNotification: ", notification)
+//            }
+//        }
+        
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+//        print("removeAllPendingNotificationRequests")
+        
 //        開発用 realm全消去
 //        do {
 //            let realm = try Realm()
-////                print(Realm.Configuration.defaultConfiguration.fileURL!)
+//                print(Realm.Configuration.defaultConfiguration.fileURL!)
 //            try! realm.write({
 //                realm.deleteAll()
 //            })
 //        } catch {
 //        }
     }
+    
+//    override func viewDidLayoutSubviews() {
+//        print("")
+//    }
+    
+//    override func viewDidAppear(_ animated: Bool) {
+//
+//        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+//        print("removeAllPendingNotificationRequests")
+//    }
     
     @objc private func tappedCellReloadButton() {
                 
@@ -53,77 +76,52 @@ class ViewController: UIViewController {
         }
     }
     
-    private func identifyTodayEventAndSetupNotification() {
+    private func identifyTodayEventAndSetupNotification(date: Date, year: Int, month: Int, day: Int) {
         
 //        let intervalFunc = { (time: Timer) in print("intervalFunc") }
 //        init() { notificationTimer = Timer.scheduledTimer(withTimeInterval: 60 * 60 * 24, repeats: false, block: <#T##(Timer) -> Void#>)}
 //        Timer.sched
         
-        guard let today = self.Calendar.today else { return }
+//        guard let today = self.Calendar.today else { return }
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "y-MM-dd"
-        let todayString = dateFormatter.string(from: today)
+        let todayString = dateFormatter.string(from: date)
         let realm = try! Realm()
         let filteredDateRoom = realm.objects(DateRoom.self).filter("dateRoomId == '\(todayString)'")
         let message = filteredDateRoom.first?.event
         
         switch filteredDateRoom.count {
         case 1:
-            setupNotification(message: message ?? "")
+            setupNotification(message: message ?? "", year: year, month: month, day: day)
         case 2:
             if let unwrappedMessage = message {
-                setupNotification(message: "1.\(unwrappedMessage)\n2.\(filteredDateRoom[1].event)")
+                setupNotification(message: "1.\(unwrappedMessage)\n2.\(filteredDateRoom[1].event)", year: year, month: month, day: day)
             }
         case 3:
             if let unwrappedMessage = message {
-                setupNotification(message: "1.\(unwrappedMessage)\n2.\(filteredDateRoom[1].event)\n3.\(filteredDateRoom[2].event)")
+                setupNotification(message: "1.\(unwrappedMessage)\n2.\(filteredDateRoom[1].event)\n3.\(filteredDateRoom[2].event)", year: year, month: month, day: day)
             }
         default: break
         }
     }
     
-    private func setupNotification(message: String) {
+    private func setupNotification(message: String, year: Int, month: Int, day: Int) {
         
         let content = UNMutableNotificationContent()
         content.title = "今日のタスク(優先順)"
         content.body = message
         content.sound = UNNotificationSound.default
+//        print("message: ", message)
         
-        let date = DateComponents(hour: 0, minute: 2)
-        let trigger = UNCalendarNotificationTrigger.init(dateMatching: date, repeats: true)
-        let request = UNNotificationRequest.init(identifier: "TestHours", content: content, trigger: trigger)
+        let date = DateComponents(year: year, month: month, day: day, hour: 8)
+//        let date = DateComponents(hour: 8)
+        let trigger = UNCalendarNotificationTrigger.init(dateMatching: date, repeats: false)
+        let request = UNNotificationRequest.init(identifier: "\(year)-\(month)-\(day)", content: content, trigger: trigger)
+//        let request = UNNotificationRequest.init(identifier: "eightHours", content: content, trigger: trigger)
 //        let request = UNNotificationRequest(identifier: "identifier", content: content, trigger: nil) // じさ関係ないやつ
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
-    
-//    func judgeDate() {
-//
-//        let calendar = Calendar.current
-//        let nowDay = Date(timeIntervalSinceNow: 60 * 60 * 9)
-//        var judge = Bool()
-//
-//        if UD.object(forKey: "today") != nil {
-//            let pastDay = UD.object(forKey: "today") as! Date
-//            let now = calendar.component(.day, from: nowDay)
-//            let past = calendar.component(.day, from: pastDay)
-//
-//            if now != past {
-//                judge = true
-//            } else {
-//                judge = false
-//            }
-//        } else { // 初回限定
-//            judge = true
-//            UD.set(nowDay, forKey: "today")
-//        }
-//
-//        if judge == true {
-//            judge = false
-//        } else {
-//
-//        }
-//    }
     
    private func makeStackViewOfOneElementByDateRoomList(cell: FSCalendarCell, cellDate: Date) {
         
@@ -158,7 +156,7 @@ class ViewController: UIViewController {
             make.width.equalTo(50)
             make.height.equalTo(45)
             make.centerX.equalTo(cell.snp_centerXWithinMargins)
-            make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(35)
+            make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(32)
         }
     }
     
@@ -201,7 +199,7 @@ class ViewController: UIViewController {
             make.width.equalTo(50)
             make.height.equalTo(45)
             make.centerX.equalTo(cell.snp_centerXWithinMargins)
-            make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(35)
+            make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(32)
         }
     }
     
@@ -250,7 +248,7 @@ class ViewController: UIViewController {
             make.width.equalTo(50)
             make.height.equalTo(45)
             make.centerX.equalTo(cell.snp_centerXWithinMargins)
-            make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(35)
+            make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(32)
         }
     }
     
@@ -287,7 +285,7 @@ class ViewController: UIViewController {
             make.width.equalTo(50)
             make.height.equalTo(45)
             make.centerX.equalTo(cell.snp_centerXWithinMargins)
-            make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(35)
+            make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(32)
         }
     }
     
@@ -328,7 +326,7 @@ class ViewController: UIViewController {
             make.width.equalTo(50)
             make.height.equalTo(45)
             make.centerX.equalTo(cell.snp_centerXWithinMargins)
-            make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(35)
+            make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(32)
         }
     }
     
@@ -373,7 +371,7 @@ class ViewController: UIViewController {
             make.width.equalTo(50)
             make.height.equalTo(45)
             make.centerX.equalTo(cell.snp_centerXWithinMargins)
-            make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(35)
+            make.centerY.equalTo(cell.snp_centerYWithinMargins).offset(32)
         }
     }
 }
@@ -398,11 +396,25 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
     }
     
     func calendar(_ calendar: FSCalendar, willDisplay cell: FSCalendarCell, for date: Date, at monthPosition: FSCalendarMonthPosition) {
-
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "y-MM-dd"
         let dateString = dateFormatter.string(from: date)
 //        print("dateString: ", dateString)
+        let eachYear = date.year
+        let eachMonth = date.month
+        let eachDay = date.day
+//        print("\(eachYear)-\(eachMonth)-\(eachDay)")
+        
+        
+//        let timeInterval = date.timeIntervalSince1970
+////        print("timeInterval: ", timeInterval)
+//        let timeIntervalInt = Int(timeInterval)
+//        print("timeIntervalInt: ", timeIntervalInt)
+        
+        
+//        let dateStringInt = dateFormatter.
+
 
         let realm = try! Realm()
         let filteredDateRoomList = realm.objects(DateRoomList.self).filter("dateRoomId == '\(dateString)'")
@@ -416,28 +428,34 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
         case 1:
             deleteStackView(cell: cell)
             makeStackViewOfOneElementByDateRoomList(cell: cell, cellDate: date)
+            identifyTodayEventAndSetupNotification(date: date, year: eachYear, month: eachMonth, day: eachDay)
         case 2:
             deleteStackView(cell: cell)
             makeStackViewOfTwoElementByDateRoomList(cell: cell, cellDate: date)
+            identifyTodayEventAndSetupNotification(date: date, year: eachYear, month: eachMonth, day: eachDay)
         default:
             deleteStackView(cell: cell)
             makeStackViewOfThreeElementByDateRoomList(cell: cell, cellDate: date)
+            identifyTodayEventAndSetupNotification(date: date, year: eachYear, month: eachMonth, day: eachDay)
         }
 
-        if eventCountInDateRoomList == nil {
+        if eventCountInDateRoomList == nil { // たんにeventCountInDateRoomListのニルケースに書けばいいかも 初回処理？
 
             switch eventCountInDateRoom {
-            case 0:
-                deleteStackView(cell: cell)
+            case 0: break
+//                deleteStackView(cell: cell)
             case 1:
-                deleteStackView(cell: cell)
+//                deleteStackView(cell: cell)
                 makeStackViewOfOneElementByDateRoom(cell: cell, cellDate: date)
+                identifyTodayEventAndSetupNotification(date: date, year: eachYear, month: eachMonth, day: eachDay)
             case 2:
-                deleteStackView(cell: cell)
+//                deleteStackView(cell: cell)
                 makeStackViewOfTwoElementByDateRoom(cell: cell, cellDate: date)
+                identifyTodayEventAndSetupNotification(date: date, year: eachYear, month: eachMonth, day: eachDay)
             default:
-                deleteStackView(cell: cell)
+//                deleteStackView(cell: cell)
                 makeStackViewOfThreeElementByDateRoom(cell: cell, cellDate: date)
+                identifyTodayEventAndSetupNotification(date: date, year: eachYear, month: eachMonth, day: eachDay)
             }
         }
     }
