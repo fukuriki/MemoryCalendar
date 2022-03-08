@@ -16,5 +16,4 @@ class Event: Object {
     @objc dynamic var reviewDay3: String = ""
     @objc dynamic var reviewDay7: String = ""
     @objc dynamic var reviewDay30: String = ""
-
 }

@@ -11,27 +11,9 @@ import RealmSwift
 
 class TaskTableViewCell: UITableViewCell {
         
-    var event: Event? {
-        didSet {
-            
-        }
-    }
-    
-    var dateRoom: DateRoom? {
-        didSet {
-            
-        }
-    }
-    
+    var event: Event?
+    var dateRoom: DateRoom?
     @IBOutlet weak var eventTextView: UITextView!
-//    @IBOutlet weak var reviewDayLabel: UILabel!
     @IBOutlet weak var priorityLabel: UILabel!
-    
-    
-    override func awakeFromNib() {
-        
-        super.awakeFromNib()
-    }
-
 }
 

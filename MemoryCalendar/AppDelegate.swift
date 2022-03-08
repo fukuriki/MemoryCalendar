@@ -6,7 +6,6 @@
 //
 
 import UIKit
-//import UserNotifications
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -23,10 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             
             guard granted else { return }
             UNUserNotificationCenter.current().delegate = self
-            
-//            DispatchQueue.main.async {
-//                UIApplication.shared.registerForRemoteNotifications()
-//            }
         }
         return true
     }

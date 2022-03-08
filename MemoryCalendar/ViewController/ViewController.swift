@@ -11,11 +11,9 @@ import RealmSwift
 import SnapKit
 
 class ViewController: UIViewController {
-
+    
     @IBOutlet weak var Calendar: FSCalendar!
     @IBOutlet weak var cellReloadButton: UIButton!
-//    private var notificationTimer = Timer()
-//    let UD = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,50 +22,17 @@ class ViewController: UIViewController {
         Calendar.dataSource = self
         cellReloadButton.layer.cornerRadius = 10
         cellReloadButton.addTarget(self, action: #selector(tappedCellReloadButton), for: .touchUpInside)
-        
-        UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
-            for notification in notifications {
-                print("PendingNotification: ", notification)
-            }
-        }
-//        UNUserNotificationCenter.current().getDeliveredNotifications { notifications in
-//            for notification in notifications {
-//                print("DNotification: ", notification)
-//            }
-//        }
-        
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-//        print("removeAllPendingNotificationRequests")
-        
-//        開発用 realm全消去
-//        do {
-//            let realm = try Realm()
-//                print(Realm.Configuration.defaultConfiguration.fileURL!)
-//            try! realm.write({
-//                realm.deleteAll()
-//            })
-//        } catch {
-//        }
     }
     
-//    override func viewDidLayoutSubviews() {
-//        print("")
-//    }
-    
-//    override func viewDidAppear(_ animated: Bool) {
-//
-//        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-//        print("removeAllPendingNotificationRequests")
-//    }
-    
     @objc private func tappedCellReloadButton() {
-                
+        
         self.Calendar.removeFromSuperview()
         self.loadView()
         self.viewDidLoad()
         self.Calendar.reloadData()
     }
-
+    
     private func deleteStackView(cell: FSCalendarCell) {
         for subview in cell.subviews {
             if let stackView = subview as? UIStackView {
@@ -77,12 +42,6 @@ class ViewController: UIViewController {
     }
     
     private func identifyTodayEventAndSetupNotification(date: Date, year: Int, month: Int, day: Int) {
-        
-//        let intervalFunc = { (time: Timer) in print("intervalFunc") }
-//        init() { notificationTimer = Timer.scheduledTimer(withTimeInterval: 60 * 60 * 24, repeats: false, block: <#T##(Timer) -> Void#>)}
-//        Timer.sched
-        
-//        guard let today = self.Calendar.today else { return }
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "y-MM-dd"
@@ -112,18 +71,14 @@ class ViewController: UIViewController {
         content.title = "今日のタスク(優先順)"
         content.body = message
         content.sound = UNNotificationSound.default
-//        print("message: ", message)
         
         let date = DateComponents(year: year, month: month, day: day, hour: 8)
-//        let date = DateComponents(hour: 8)
         let trigger = UNCalendarNotificationTrigger.init(dateMatching: date, repeats: false)
         let request = UNNotificationRequest.init(identifier: "\(year)-\(month)-\(day)", content: content, trigger: trigger)
-//        let request = UNNotificationRequest.init(identifier: "eightHours", content: content, trigger: trigger)
-//        let request = UNNotificationRequest(identifier: "identifier", content: content, trigger: nil) // じさ関係ないやつ
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     
-   private func makeStackViewOfOneElementByDateRoomList(cell: FSCalendarCell, cellDate: Date) {
+    private func makeStackViewOfOneElementByDateRoomList(cell: FSCalendarCell, cellDate: Date) {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "y-MM-dd"
@@ -132,7 +87,7 @@ class ViewController: UIViewController {
         let filteredDateRoomList = realm.objects(DateRoomList.self).filter("dateRoomId == '\(dateString)'")
         
         let eventLabel = UILabel()
-        //                let eventLabel = EventLabel(frame: .zero, eventText: eventText) // リファクタリング用
+        //                let eventLabel = EventLabel(frame: .zero, eventText: eventText) // リファクタリング用?
         if let firstEventString = filteredDateRoomList.first?.list.first?.event {
             eventLabel.text = firstEventString
         }
@@ -147,7 +102,7 @@ class ViewController: UIViewController {
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
-       
+        
         cell.addSubview(stackView)
         
         stackView.alignment = .center
@@ -190,7 +145,7 @@ class ViewController: UIViewController {
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         cell.addSubview(stackView)
         
         stackView.alignment = .center
@@ -239,7 +194,7 @@ class ViewController: UIViewController {
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         cell.addSubview(stackView)
         
         stackView.alignment = .center
@@ -261,7 +216,6 @@ class ViewController: UIViewController {
         let filteredDateRoom = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
         
         let eventLabel = UILabel()
-        //                let eventLabel = EventLabel(frame: .zero, eventText: eventText) // リファクタリング用?
         if let firstEventString = filteredDateRoom.first?.event {
             eventLabel.text = firstEventString
         }
@@ -276,7 +230,7 @@ class ViewController: UIViewController {
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         cell.addSubview(stackView)
         
         stackView.alignment = .center
@@ -317,7 +271,7 @@ class ViewController: UIViewController {
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         cell.addSubview(stackView)
         
         stackView.alignment = .center
@@ -362,7 +316,7 @@ class ViewController: UIViewController {
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         cell.addSubview(stackView)
         
         stackView.alignment = .center
@@ -382,7 +336,7 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
         
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
         let setMemoryViewController = storyboard.instantiateViewController(withIdentifier: "Insert") as? SetMemoryViewController
-        let nav = UINavigationController(rootViewController: setMemoryViewController!)        
+        let nav = UINavigationController(rootViewController: setMemoryViewController!)
         
         if let setMemoryViewController = setMemoryViewController {
             
@@ -390,7 +344,6 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
             dateFormatter.dateFormat = "y-MM-dd"
             let string = dateFormatter.string(from: date)
             setMemoryViewController.date = SettingDate.dateFromString(string: string, format: "y-MM-dd")
-            
             present(nav, animated: true, completion: nil)
         }
     }
@@ -400,28 +353,16 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "y-MM-dd"
         let dateString = dateFormatter.string(from: date)
-//        print("dateString: ", dateString)
         let eachYear = date.year
         let eachMonth = date.month
         let eachDay = date.day
-//        print("\(eachYear)-\(eachMonth)-\(eachDay)")
         
-        
-//        let timeInterval = date.timeIntervalSince1970
-////        print("timeInterval: ", timeInterval)
-//        let timeIntervalInt = Int(timeInterval)
-//        print("timeIntervalInt: ", timeIntervalInt)
-        
-        
-//        let dateStringInt = dateFormatter.
-
-
         let realm = try! Realm()
         let filteredDateRoomList = realm.objects(DateRoomList.self).filter("dateRoomId == '\(dateString)'")
         let eventCountInDateRoomList = filteredDateRoomList.last?.list.count
         let filteredDateRoom = realm.objects(DateRoom.self).filter("dateRoomId == '\(dateString)'")
         let eventCountInDateRoom = filteredDateRoom.count
-
+        
         switch eventCountInDateRoomList {
         case nil:
             deleteStackView(cell: cell)
@@ -438,34 +379,21 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
             makeStackViewOfThreeElementByDateRoomList(cell: cell, cellDate: date)
             identifyTodayEventAndSetupNotification(date: date, year: eachYear, month: eachMonth, day: eachDay)
         }
-
-        if eventCountInDateRoomList == nil { // たんにeventCountInDateRoomListのニルケースに書けばいいかも 初回処理？
-
+        
+        if eventCountInDateRoomList == nil { // イベント０の状態からの初反映処理
+            
             switch eventCountInDateRoom {
             case 0: break
-//                deleteStackView(cell: cell)
             case 1:
-//                deleteStackView(cell: cell)
                 makeStackViewOfOneElementByDateRoom(cell: cell, cellDate: date)
                 identifyTodayEventAndSetupNotification(date: date, year: eachYear, month: eachMonth, day: eachDay)
             case 2:
-//                deleteStackView(cell: cell)
                 makeStackViewOfTwoElementByDateRoom(cell: cell, cellDate: date)
                 identifyTodayEventAndSetupNotification(date: date, year: eachYear, month: eachMonth, day: eachDay)
             default:
-//                deleteStackView(cell: cell)
                 makeStackViewOfThreeElementByDateRoom(cell: cell, cellDate: date)
                 identifyTodayEventAndSetupNotification(date: date, year: eachYear, month: eachMonth, day: eachDay)
             }
         }
     }
-    
-//    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-//
-//        let x = realm.objects(Event.self).first
-//        let date = SettingDate.stringFromDate(date: date, format: "y-MM-dd")
-//        var hasEvent: Bool = false
-//
-//        for eventModel in Event
-//    }
 }
