@@ -46,6 +46,9 @@
                                     <userDefinedRuntimeAttribute type="number" keyPath="weekdayHeight">
                                         <real key="value" value="11"/>
                                     </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="titleDefaultColor">
+                                        <color key="value" systemColor="systemGreenColor"/>
+                                    </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="YX1-It-i7v"/>
