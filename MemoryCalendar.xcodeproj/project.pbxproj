@@ -24,6 +24,7 @@
 		3C8F48332700BB5300A1CD24 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8F48322700BB5300A1CD24 /* Event.swift */; };
 		3C8F4835270457AF00A1CD24 /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8F4834270457AF00A1CD24 /* TaskTableViewCell.swift */; };
 		3C8F48372704870400A1CD24 /* TaskTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C8F48362704870300A1CD24 /* TaskTableViewCell.xib */; };
+		3C92563D282D65D1006BB6CF /* EventNameLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C92563C282D65D1006BB6CF /* EventNameLabel.swift */; };
 		3CAFA0782712C01100DD863A /* SettingDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CAFA0772712C01100DD863A /* SettingDate.swift */; };
 		BF7E82AA902069F66EE50939 /* Pods_MemoryCalendarTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1728DC460B271A52DCAB8557 /* Pods_MemoryCalendarTests.framework */; };
 		C0A0068CBFFED05E216EEADE /* Pods_MemoryCalendar_MemoryCalendarUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 796ECDE3831ED893600F5E42 /* Pods_MemoryCalendar_MemoryCalendarUITests.framework */; };
@@ -71,6 +72,7 @@
 		3C8F48322700BB5300A1CD24 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		3C8F4834270457AF00A1CD24 /* TaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTableViewCell.swift; sourceTree = "<group>"; };
 		3C8F48362704870300A1CD24 /* TaskTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskTableViewCell.xib; sourceTree = "<group>"; };
+		3C92563C282D65D1006BB6CF /* EventNameLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventNameLabel.swift; sourceTree = "<group>"; };
 		3CAFA0772712C01100DD863A /* SettingDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDate.swift; sourceTree = "<group>"; };
 		796ECDE3831ED893600F5E42 /* Pods_MemoryCalendar_MemoryCalendarUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MemoryCalendar_MemoryCalendarUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AECCF20F4B97F20D2482B50 /* Pods-MemoryCalendar-MemoryCalendarUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MemoryCalendar-MemoryCalendarUITests.release.xcconfig"; path = "Target Support Files/Pods-MemoryCalendar-MemoryCalendarUITests/Pods-MemoryCalendar-MemoryCalendarUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				3CAFA0772712C01100DD863A /* SettingDate.swift */,
 				3C4989E4274FCB2B001DF23D /* DateRoomList.swift */,
 				3C56330227C8A42900A601AA /* Date-Extension.swift */,
+				3C92563C282D65D1006BB6CF /* EventNameLabel.swift */,
 			);
 			path = "Model&Extension";
 			sourceTree = "<group>";
@@ -462,6 +465,7 @@
 				3C56330327C8A42900A601AA /* Date-Extension.swift in Sources */,
 				3C89793827295A7C00207CE5 /* DateRoom.swift in Sources */,
 				3C8F47FA26FC8A5500A1CD24 /* AppDelegate.swift in Sources */,
+				3C92563D282D65D1006BB6CF /* EventNameLabel.swift in Sources */,
 				3C8F47FC26FC8A5500A1CD24 /* SceneDelegate.swift in Sources */,
 				3C4989E5274FCB2B001DF23D /* DateRoomList.swift in Sources */,
 				3C8F48332700BB5300A1CD24 /* Event.swift in Sources */,
